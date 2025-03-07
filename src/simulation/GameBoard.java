@@ -33,15 +33,15 @@ public class GameBoard {
         herbivores.remove(cr);
     }
 
-    public void addCreater(Herbivore cr){
+    public void addCreature(Herbivore cr){
         herbivores.add(cr);
     }
 
     public void setUpHerbivoresOnBoard(){
-        for (Herbivore cr : herbivores){
-            int x = cr.getCoordinate().getX();
-            int y = cr.getCoordinate().getY();
-            board[x][y] = cr.getSprite();
+        for (Herbivore herbivore : herbivores){
+            int x = herbivore.getCoordinate().getX();
+            int y = herbivore.getCoordinate().getY();
+            board[x][y] = herbivore.getSprite();
         }
     }
 }

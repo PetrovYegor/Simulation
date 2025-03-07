@@ -30,7 +30,7 @@ public class Simulation {
     }
 
     private void nextTurn(){
-        String[][] board = gameBoard.getBoard();
+        String[][] board = gameBoard.getBoard();//то что тут описано - это ответственность gamerenderer
         for (int i = 0; i < board.length; i++){
             for (int j = 0; j < board[i].length; j++){
                 System.out.print(board[i][j] + " ");
