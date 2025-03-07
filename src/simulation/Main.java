@@ -1,6 +1,18 @@
+package simulation;
+
+import simulation.models.Coordinate;
+import simulation.models.Herbivore;
+
+import java.util.List;
+
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+    public static void main(String[] args) throws InterruptedException {
+        Coordinate coordinate = new Coordinate(5,5);
+        Herbivore herbivore = new Herbivore(coordinate);
+        List<Herbivore> herbivores = List.of(herbivore);
+        GameBoard gameBoard = new GameBoard(10, 10, herbivores);
+        Simulation simulation = new Simulation(gameBoard);
+        simulation.startSimulation();
     }
 }
 /*

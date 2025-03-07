@@ -1,4 +1,4 @@
-package actions;
+package simulation.actions;
 
 public abstract class Action {
 }
