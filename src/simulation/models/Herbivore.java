@@ -27,6 +27,10 @@ public class Herbivore extends Creature{
         coordinate = new Coordinate(x, y);
     }
 
+    public boolean isContainsCoordinates(int x, int y){
+        return (this.coordinate.getX() == x && this.coordinate.getY() == y);
+    }
+
     public String getSprite(){
         return Sprite.HERBIVORE;
     }

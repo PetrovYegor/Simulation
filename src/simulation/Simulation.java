@@ -9,6 +9,7 @@ public class Simulation {
     private GameBoard gameBoard;//игровое поле
     private int moveCounter;//счётчик ходов
 
+    private GameRenderer gameRenderer = new GameRenderer();
     //private GameRenderer renderer //рендерер игры (по ТЗ)
 
     //private Action[] initActions;// действия, совершаемые перед стартом симуляции. Пример - расставить объекты
@@ -30,19 +31,13 @@ public class Simulation {
     }
 
     private void nextTurn(){
-        String[][] board = gameBoard.getBoard();//то что тут описано - это ответственность gamerenderer
-        for (int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[i].length; j++){
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
+        gameRenderer.printGameBoard(gameBoard.getHeight(), gameBoard.getWidth(), gameBoard.getHerbivores());
     }
 
     void startSimulation() throws InterruptedException {
-        gameBoard.setUpHerbivoresOnBoard();
         List<Herbivore> herbivores = gameBoard.getHerbivores();
         while (true){
+            gameBoard.setUpHerbivoresOnBoard();
             nextTurn();
             for (Herbivore herbivore : herbivores){
                 herbivore.makeMove();

@@ -44,6 +44,14 @@ public class GameBoard {
             board[x][y] = herbivore.getSprite();
         }
     }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public int getWidth(){
+        return width;
+    }
 }
 
 //заполнить размер поля через диалог?
