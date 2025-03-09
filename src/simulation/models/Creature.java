@@ -7,6 +7,14 @@ public abstract class Creature extends Entity{
 
     public abstract void makeMove();
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
     //получить уровень здоровья
     //проверить не равен ли уровень здоровья 0, если да, то мёртв
     //уменьшить количество здоровья
