@@ -9,7 +9,8 @@ import java.util.Random;
 public class Herbivore extends Creature{
     private Coordinate coordinate;
 
-    public Herbivore (Coordinate coordinates){
+    public Herbivore (int speed, Coordinate coordinates){
+        super(speed);
         this.coordinate = coordinates;
     }
     public Coordinate getCoordinate(){
@@ -39,42 +40,72 @@ public class Herbivore extends Creature{
         Random random = new Random();
         int currentX = coordinate.getX();
         int currentY = coordinate.getY();
-        int resultX = 0;
-        int resultY = 0;
+        int resultX = -1;
+        int resultY = -1;
+        int stepCounter = 0;
+        while (stepCounter < speed){
+            int tempX = -1;
+            int tempY = -1;
+            int printX = -1;
+            int printY = -1;
+            if (stepCounter == 0){
+                tempX = currentX;
+                tempY = currentY;
+            } else {
+                tempX = resultX;
+                tempY = resultY;
+            }
 
-        while (true){
-            int tempX = currentX;
-            int tempY = currentY;
             boolean changeRow = random.nextBoolean();
-            boolean changeColumn = random.nextBoolean();
-            boolean movePositiveX = random.nextBoolean();
-            boolean movePositiveY = random.nextBoolean();
+            boolean movePositive = random.nextBoolean();
 
 
             if (changeRow){
-                if (movePositiveX){
+                if (movePositive){
                     tempX += 1;
                 } else {
                     tempX -= 1;
                 }
-            }
-
-            if (changeColumn){
-                if (movePositiveY){
+            } else {
+                if (movePositive){
                     tempY += 1;
                 } else {
                     tempY -= 1;
                 }
             }
-            if (tempX == currentX && tempY == currentY){
-                continue;
+
+//            if (stepCounter == 0 && tempX == currentX && tempY == currentY){
+//                continue;
+//            }
+            if (stepCounter != 0){
+                if (tempX == resultX && tempY == resultY){
+                    continue;
+                }
             }
 
+
             if (tempX >= 0 && tempX < 10 && tempY >= 0 && tempY < 10){
+                if (stepCounter == 0){
+                    printX = tempX;
+                    printY = tempY;
+                } else {
+                    printX = tempX;
+                    printY = tempY;
+                }
+                if (stepCounter == 0){
+                    System.out.println("("+currentX+"; "+currentY+") -----------> ("+tempX + "; "+tempY+")");
+                } else {
+                    System.out.println("("+resultX+"; "+resultY+") -----------> ("+printX + "; "+printY+")");
+                }
+
                 resultX = tempX;
                 resultY = tempY;
-                break;
+
+                stepCounter += 1;
             }
+
+
+
         }
         System.out.println("("+currentX+"; "+currentY+") -----------> ("+resultX + "; "+resultY+")");
         coordinate = new Coordinate(resultX, resultY);

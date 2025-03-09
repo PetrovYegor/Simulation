@@ -10,6 +10,9 @@ public class Predator extends Creature{
     public void makeMove() {
 
     }
+    public Predator(int speed){
+        super(speed);
+    }
 
     //нужен метод движения
     //нужен метод атаки

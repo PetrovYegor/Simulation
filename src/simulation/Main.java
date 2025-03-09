@@ -1,14 +1,17 @@
 package simulation;
 
 import simulation.models.Coordinate;
+import simulation.models.Creature;
 import simulation.models.Herbivore;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+
         Coordinate coordinate = new Coordinate(5,5);
-        Herbivore herbivore = new Herbivore(coordinate);
+        int speed = 3;
+        Herbivore herbivore = new Herbivore(speed,coordinate);
         List<Herbivore> herbivores = List.of(herbivore);
         GameBoard gameBoard = new GameBoard(10, 10, herbivores);
         Simulation simulation = new Simulation(gameBoard);
