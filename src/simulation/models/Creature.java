@@ -5,9 +5,9 @@ public abstract class Creature extends Entity{
     private int speed; //количество клеток, которое существо может пройти за 1 ход
     private int health; //здоровье существа
 
-    public Creature (int speed){
+    public Creature (int speed, int health){
         this.speed = speed;
-
+        this.health = health;
     }
 
     public abstract void makeMove();

@@ -1,22 +1,34 @@
 package simulation;
 
+import simulation.models.Coordinate;
 import simulation.models.Creature;
 import simulation.models.Herbivore;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GameBoard {
     private final int height;
     private final int width;
     private List<Herbivore> herbivores;
     //сделать мапу, где ключ - существо, а значение - его расположение (так по ТЗ написано)
+    Map<Coordinate, Herbivore> gameBoard;
     private String[][] board;
+
+    private TreeMap<Coordinate, Herbivore> initGameBoard(int height, int width){
+        TreeMap<Coordinate, Herbivore> result = new TreeMap<>();
+        for (int i = 0; i < height; i++){
+            for (int j = 0; j < width; j++){
+                result.put(new Coordinate(i, j), null);
+            }
+        }
+        return result;
+    }
 
     public GameBoard(int height, int width, List<Herbivore> herbivores){
         this.height = height;
         this.width = width;
         this.herbivores = herbivores;
+        this.gameBoard = initGameBoard(height, width);
         this.board = new String[height][width];
     }
 
@@ -51,6 +63,10 @@ public class GameBoard {
 
     public int getWidth(){
         return width;
+    }
+
+    public boolean isCellTaken(Coordinate c){
+        return !"_".equals(board[c.getX()][c.getY()]);
     }
 }
 

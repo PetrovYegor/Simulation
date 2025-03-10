@@ -1,19 +1,18 @@
 package simulation;
 
 import simulation.models.Coordinate;
-import simulation.models.Creature;
 import simulation.models.Herbivore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+        List<Herbivore> herbivores = new ArrayList<>();
+        herbivores.add(HerbivoreFactory.createHerbivore(3, 5, new Coordinate(0,0)));
+        herbivores.add(HerbivoreFactory.createHerbivore(5, 3, new Coordinate(1,1)));
 
-        Coordinate coordinate = new Coordinate(5,5);
-        int speed = 3;
-        Herbivore herbivore = new Herbivore(speed,coordinate);
-        List<Herbivore> herbivores = List.of(herbivore);
-        GameBoard gameBoard = new GameBoard(10, 10, herbivores);
+        GameBoard gameBoard = new GameBoard(5,5 , herbivores);
         Simulation simulation = new Simulation(gameBoard);
         simulation.startSimulation();
     }

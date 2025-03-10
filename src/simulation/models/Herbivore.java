@@ -9,32 +9,23 @@ import java.util.Random;
 public class Herbivore extends Creature{
     private Coordinate coordinate;
 
-    public Herbivore (int speed, Coordinate coordinates){
-        super(speed);
+    public Herbivore (int speed, int health, Coordinate coordinates){
+        super(speed, health);
         this.coordinate = coordinates;
     }
     public Coordinate getCoordinate(){
         return coordinate;
     }
-//    @Override
-//    public void makeMove() {
-//        Random random = new Random();
-//        int x = random.nextInt(10);
-//        int y = random.nextInt(10);
-//        changeCoordinate(x, y);
-//    }
 
     @Override
     public void makeMove() {
         Random random = new Random();
-        int x = random.nextInt(10);
-        int y = random.nextInt(10);
         changeCoordinate(this.getSpeed());
     }
 
-//    private void changeCoordinate(int x, int y){
-//        coordinate = new Coordinate(x, y);
-//    }
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
 
     private void changeCoordinate(int speed){
         Random random = new Random();
@@ -74,29 +65,26 @@ public class Herbivore extends Creature{
                 }
             }
 
-//            if (stepCounter == 0 && tempX == currentX && tempY == currentY){
-//                continue;
-//            }
             if (stepCounter != 0){
                 if (tempX == resultX && tempY == resultY){
                     continue;
                 }
             }
 
-
-            if (tempX >= 0 && tempX < 10 && tempY >= 0 && tempY < 10){
-                if (stepCounter == 0){
-                    printX = tempX;
-                    printY = tempY;
-                } else {
-                    printX = tempX;
-                    printY = tempY;
-                }
-                if (stepCounter == 0){
-                    System.out.println("("+currentX+"; "+currentY+") -----------> ("+tempX + "; "+tempY+")");
-                } else {
-                    System.out.println("("+resultX+"; "+resultY+") -----------> ("+printX + "; "+printY+")");
-                }
+            if (tempX >= 0 && tempX < 5 && tempY >= 0 && tempY < 5){
+//                if (stepCounter == 0){
+//                    printX = tempX;
+//                    printY = tempY;
+//                } else {
+//                    printX = tempX;
+//                    printY = tempY;
+//                }
+//для дебага
+//                if (stepCounter == 0){
+//                    System.out.println("("+currentX+"; "+currentY+") -----------> ("+tempX + "; "+tempY+")");
+//                } else {
+//                    System.out.println("("+resultX+"; "+resultY+") -----------> ("+printX + "; "+printY+")");
+//                }
 
                 resultX = tempX;
                 resultY = tempY;
@@ -107,7 +95,8 @@ public class Herbivore extends Creature{
 
 
         }
-        System.out.println("("+currentX+"; "+currentY+") -----------> ("+resultX + "; "+resultY+")");
+        //для дебага
+        //System.out.println("("+currentX+"; "+currentY+") -----------> ("+resultX + "; "+resultY+")");
         coordinate = new Coordinate(resultX, resultY);
     }
 

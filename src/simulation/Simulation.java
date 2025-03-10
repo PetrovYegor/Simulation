@@ -1,6 +1,7 @@
 package simulation;
 
 import simulation.actions.Action;
+import simulation.models.Coordinate;
 import simulation.models.Herbivore;
 
 import java.util.List;
@@ -31,16 +32,30 @@ public class Simulation {
     }
 
     private void nextTurn(){
-        gameRenderer.printGameBoard(gameBoard.getHeight(), gameBoard.getWidth(), gameBoard.getHerbivores());
+        gameRenderer.printGameBoard(gameBoard, gameBoard.getHerbivores());
     }
 
     void startSimulation() throws InterruptedException {
         List<Herbivore> herbivores = gameBoard.getHerbivores();
         while (true){
-            gameBoard.setUpHerbivoresOnBoard();
+            //gameBoard.setUpHerbivoresOnBoard();
             nextTurn();
             for (Herbivore herbivore : herbivores){
-                herbivore.makeMove();
+                boolean needToCalculateNewCoordinate = true;
+                while (needToCalculateNewCoordinate){
+                    Coordinate currentCoordinate = herbivore.getCoordinate();
+                    herbivore.makeMove();
+                    Coordinate newCoordinate = herbivore.getCoordinate();
+                    if (gameBoard.isCellTaken(newCoordinate)){
+                        herbivore.setCoordinate(currentCoordinate);
+                    } else {
+                        gameBoard.getBoard()[currentCoordinate.getX()][currentCoordinate.getY()] = "_";
+                        gameBoard.getBoard()[newCoordinate.getX()][newCoordinate.getY()] = herbivore.getSprite();
+                        needToCalculateNewCoordinate = false;
+                    }
+                }
+
+
             }
             Thread.sleep(500);
         }
