@@ -2,20 +2,18 @@ package simulation.models;
 //Травоядное, наследуется от Creature. Стремятся найти ресурс (траву),
 // может потратить свой ход на движение в сторону травы, либо на её поглощение.
 
+import simulation.Coordinates;
 import simulation.Sprite;
 
 import java.util.Random;
 
-public class Herbivore extends Creature{
-    private Coordinate coordinate;
+public class Herbivore extends Creature {
 
-    public Herbivore (int speed, int health, Coordinate coordinates){
-        super(speed, health);
-        this.coordinate = coordinates;
+
+    public Herbivore(Coordinates coordinates, int speed, int health) {
+        super(coordinates, speed, health);
     }
-    public Coordinate getCoordinate(){
-        return coordinate;
-    }
+
 
     @Override
     public void makeMove() {
@@ -23,23 +21,21 @@ public class Herbivore extends Creature{
         changeCoordinate(this.getSpeed());
     }
 
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
 
-    private void changeCoordinate(int speed){
+
+    private void changeCoordinate(int speed) {
         Random random = new Random();
-        int currentX = coordinate.getX();
-        int currentY = coordinate.getY();
+        int currentX = coordinates.getX();
+        int currentY = coordinates.getY();
         int resultX = -1;
         int resultY = -1;
         int stepCounter = 0;
-        while (stepCounter < speed){
+        while (stepCounter < speed) {
             int tempX = -1;
             int tempY = -1;
             int printX = -1;
             int printY = -1;
-            if (stepCounter == 0){
+            if (stepCounter == 0) {
                 tempX = currentX;
                 tempY = currentY;
             } else {
@@ -51,27 +47,27 @@ public class Herbivore extends Creature{
             boolean movePositive = random.nextBoolean();
 
 
-            if (changeRow){
-                if (movePositive){
+            if (changeRow) {
+                if (movePositive) {
                     tempX += 1;
                 } else {
                     tempX -= 1;
                 }
             } else {
-                if (movePositive){
+                if (movePositive) {
                     tempY += 1;
                 } else {
                     tempY -= 1;
                 }
             }
 
-            if (stepCounter != 0){
-                if (tempX == resultX && tempY == resultY){
+            if (stepCounter != 0) {
+                if (tempX == resultX && tempY == resultY) {
                     continue;
                 }
             }
 
-            if (tempX >= 0 && tempX < 5 && tempY >= 0 && tempY < 5){
+            if (tempX >= 0 && tempX < 5 && tempY >= 0 && tempY < 5) {
 //                if (stepCounter == 0){
 //                    printX = tempX;
 //                    printY = tempY;
@@ -93,18 +89,14 @@ public class Herbivore extends Creature{
             }
 
 
-
         }
         //для дебага
         //System.out.println("("+currentX+"; "+currentY+") -----------> ("+resultX + "; "+resultY+")");
-        coordinate = new Coordinate(resultX, resultY);
+        coordinates = new Coordinates(resultX, resultY);
     }
 
-    public boolean isContainsCoordinates(int x, int y){
-        return (this.coordinate.getX() == x && this.coordinate.getY() == y);
-    }
 
-    public String getSprite(){
+    public String getSprite() {
         return Sprite.HERBIVORE;
     }
 

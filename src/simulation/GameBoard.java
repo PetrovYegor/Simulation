@@ -1,73 +1,61 @@
 package simulation;
 
-import simulation.models.Coordinate;
-import simulation.models.Creature;
+import simulation.models.Entity;
 import simulation.models.Herbivore;
 
 import java.util.*;
 
 public class GameBoard {
+    private static final int HERBIVORE_LIMIT = 2;
     private final int height;
     private final int width;
-    private List<Herbivore> herbivores;
-    //сделать мапу, где ключ - существо, а значение - его расположение (так по ТЗ написано)
-    Map<Coordinate, Herbivore> gameBoard;
-    private String[][] board;
+    private final Map<Coordinates, Entity> entitiesByCoordinates;
 
-    private TreeMap<Coordinate, Herbivore> initGameBoard(int height, int width){
-        TreeMap<Coordinate, Herbivore> result = new TreeMap<>();
-        for (int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                result.put(new Coordinate(i, j), null);
-            }
-        }
-        return result;
-    }
-
-    public GameBoard(int height, int width, List<Herbivore> herbivores){
+    public GameBoard(int height, int width) {
         this.height = height;
         this.width = width;
-        this.herbivores = herbivores;
-        this.gameBoard = initGameBoard(height, width);
-        this.board = new String[height][width];
+        this.entitiesByCoordinates = new HashMap<>();
     }
 
-    public String[][] getBoard(){
-        return board;
+    //установить фигуру на игровой карте
+    public void setEntity(Coordinates coordinates, Entity entity) {
+        entity.coordinates = coordinates;
+        entitiesByCoordinates.put(coordinates, entity);
     }
 
-    public List<Herbivore> getHerbivores(){
-        List<Herbivore> result = new ArrayList<>(herbivores);
-        return result;
-    }
-
-    public void removeCreature(Creature cr){
-        herbivores.remove(cr);
-    }
-
-    public void addCreature(Herbivore cr){
-        herbivores.add(cr);
-    }
-
-    public void setUpHerbivoresOnBoard(){
-        for (Herbivore herbivore : herbivores){
-            int x = herbivore.getCoordinate().getX();
-            int y = herbivore.getCoordinate().getY();
-            board[x][y] = herbivore.getSprite();
+    //создаём фигуры на игровой карте
+    public void setupHerbivoresPositions() {
+        for (int i = 0; i < HERBIVORE_LIMIT; i++) {
+            setEntity(new Coordinates(1, 1), new Herbivore(new Coordinates(1, 1), 4, 3));
+            //setEntity(new Coordinates(3, 3), new Herbivore(new Coordinates(3, 3), 2, 5));
         }
     }
 
-    public int getHeight(){
+    public boolean isCellEmpty(Coordinates coordinates) {//метод для рендера
+        return !entitiesByCoordinates.containsKey(coordinates);
+    }
+
+    public Entity getEntity(Coordinates coordinates){//метод для рендера
+        return entitiesByCoordinates.get(coordinates);
+    }
+
+    public void removeEntity(Coordinates coordinates){
+        entitiesByCoordinates.remove(coordinates);
+    }
+    public List<Entity> getAllEntities(){
+        return new ArrayList<>(entitiesByCoordinates.values());
+    }
+
+
+
+    public int getHeight() {
         return height;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
 
-    public boolean isCellTaken(Coordinate c){
-        return !"_".equals(board[c.getX()][c.getY()]);
-    }
 }
 
 //заполнить размер поля через диалог?

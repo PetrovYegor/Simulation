@@ -1,7 +1,8 @@
 package simulation;
 
 import simulation.actions.Action;
-import simulation.models.Coordinate;
+import simulation.models.Creature;
+import simulation.models.Entity;
 import simulation.models.Herbivore;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class Simulation {
     private GameBoard gameBoard;//игровое поле
     private int moveCounter;//счётчик ходов
 
-    private GameRenderer gameRenderer = new GameRenderer();
+    private BoardConsoleRenderer renderer;
     //private GameRenderer renderer //рендерер игры (по ТЗ)
 
     //private Action[] initActions;// действия, совершаемые перед стартом симуляции. Пример - расставить объекты
@@ -26,41 +27,39 @@ public class Simulation {
     //или травоядных, если их осталось слишком мало
     List<Action> turnActions;
 
-    public Simulation (GameBoard board){
-        this.gameBoard = board;
+    public Simulation (GameBoard gameBoard){
+        this.gameBoard = gameBoard;
+        this.renderer = new BoardConsoleRenderer(gameBoard);//убрать эту зависимость
         moveCounter = 0;
     }
 
     private void nextTurn(){
-        gameRenderer.printGameBoard(gameBoard, gameBoard.getHerbivores());
+        renderer.render();
     }
 
     void startSimulation() throws InterruptedException {
-        List<Herbivore> herbivores = gameBoard.getHerbivores();
         while (true){
-            //gameBoard.setUpHerbivoresOnBoard();
             nextTurn();
-            for (Herbivore herbivore : herbivores){
+            for (Entity entity : gameBoard.getAllEntities()){
+                Coordinates oldCoordinates = entity.coordinates;
                 boolean needToCalculateNewCoordinate = true;
                 while (needToCalculateNewCoordinate){
-                    Coordinate currentCoordinate = herbivore.getCoordinate();
-                    herbivore.makeMove();
-                    Coordinate newCoordinate = herbivore.getCoordinate();
-                    if (gameBoard.isCellTaken(newCoordinate)){
-                        herbivore.setCoordinate(currentCoordinate);
-                    } else {
-                        gameBoard.getBoard()[currentCoordinate.getX()][currentCoordinate.getY()] = "_";
-                        gameBoard.getBoard()[newCoordinate.getX()][newCoordinate.getY()] = herbivore.getSprite();
-                        needToCalculateNewCoordinate = false;
-                    }
+
+                    ((Creature)entity).makeMove();
+                    Coordinates newCoordinate = herbivore.getCoordinate();
+
                 }
-
-
             }
+
+                gameBoard.setEntity(entity.coordinates, entity);
+                gameBoard.removeEntity(oldCoordinates);
+            }
+
             Thread.sleep(500);
+            }
+
         }
 
-    }
 
     private void pauseSimulation(){
 
