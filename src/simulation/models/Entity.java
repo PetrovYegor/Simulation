@@ -9,7 +9,7 @@ public abstract class Entity {
         this.coordinates = coordinates;
     }
 
-    public Coordinates getCoordinate(){
+    public Coordinates getCoordinates(){
         return coordinates;
     }
 

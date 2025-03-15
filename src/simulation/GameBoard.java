@@ -1,7 +1,9 @@
 package simulation;
 
 import simulation.models.Entity;
+import simulation.models.Grass;
 import simulation.models.Herbivore;
+import simulation.models.Predator;
 
 import java.util.*;
 
@@ -31,6 +33,17 @@ public class GameBoard {
         }
     }
 
+    public boolean isFood(Coordinates coordinates, Entity entity){
+        Entity targetEntity = entitiesByCoordinates.get(coordinates);
+        if (targetEntity instanceof Grass && entity instanceof Herbivore){
+            return true;
+        }
+        if (targetEntity instanceof Herbivore && entity instanceof Predator){
+            return true;
+        }
+        return false;
+    }
+
     public boolean isCellEmpty(Coordinates coordinates) {//метод для рендера
         return !entitiesByCoordinates.containsKey(coordinates);
     }
@@ -55,6 +68,15 @@ public class GameBoard {
     public int getWidth() {
         return width;
     }
+
+    public static boolean isCoordinatesValid(Coordinates coordinates){
+        int targetX = coordinates.getX();
+        int targetY = coordinates.getY();
+        boolean xValid = targetX >= 0 && targetX < 5;//!!!!!! убрать хардкод
+        boolean yValid = targetY >= 0 && targetY < 5;//!!!!!! убрать хардкод
+        return xValid && yValid;
+    }
+
 
 }
 

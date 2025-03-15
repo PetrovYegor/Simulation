@@ -45,20 +45,20 @@ public class Simulation {
                 boolean needToCalculateNewCoordinate = true;
                 while (needToCalculateNewCoordinate){
 
-                    ((Creature)entity).makeMove();
-                    Coordinates newCoordinate = herbivore.getCoordinate();
+                    ((Creature)entity).makeMove(gameBoard);
+                    //Coordinates newCoordinate = herbivore.getCoordinates();
 
                 }
             }
 
-                gameBoard.setEntity(entity.coordinates, entity);
-                gameBoard.removeEntity(oldCoordinates);
+//                gameBoard.setEntity(entity.coordinates, entity);
+//                gameBoard.removeEntity(oldCoordinates);
             }
 
-            Thread.sleep(500);
+            //Thread.sleep(500);
             }
 
-        }
+
 
 
     private void pauseSimulation(){
