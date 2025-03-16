@@ -39,17 +39,18 @@ public class Simulation {
 
     void startSimulation() throws InterruptedException {
         while (true){
+            if (!gameBoard.isGrassEnough()){
+                gameBoard.setupGrassPositions();
+            }
             nextTurn();
             for (Entity entity : gameBoard.getAllEntities()){
-                Coordinates oldCoordinates = entity.coordinates;
-                boolean needToCalculateNewCoordinate = true;
-                while (needToCalculateNewCoordinate){
+                    if (entity instanceof Creature creature){
+                        creature.makeMove(gameBoard);
+                    }
 
-                    ((Creature)entity).makeMove(gameBoard);
-                    //Coordinates newCoordinate = herbivore.getCoordinates();
 
-                }
             }
+            Thread.sleep(1000);
 
 //                gameBoard.setEntity(entity.coordinates, entity);
 //                gameBoard.removeEntity(oldCoordinates);

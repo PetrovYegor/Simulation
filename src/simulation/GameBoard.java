@@ -9,6 +9,8 @@ import java.util.*;
 
 public class GameBoard {
     private static final int HERBIVORE_LIMIT = 2;
+    private static final int GRASS_LIMIT = 2;
+
     private final int height;
     private final int width;
     private final Map<Coordinates, Entity> entitiesByCoordinates;
@@ -27,10 +29,33 @@ public class GameBoard {
 
     //создаём фигуры на игровой карте
     public void setupHerbivoresPositions() {
-        for (int i = 0; i < HERBIVORE_LIMIT; i++) {
-            setEntity(new Coordinates(1, 1), new Herbivore(new Coordinates(1, 1), 4, 3));
+        //for (int i = 0; i < HERBIVORE_LIMIT; i++) {
+        for (int i = 0; i < 1; i++) {//удалить после дебага
+            setEntity(new Coordinates(1, 1), new Herbivore( new Coordinates(1,1),4, 3));
             //setEntity(new Coordinates(3, 3), new Herbivore(new Coordinates(3, 3), 2, 5));
         }
+    }
+
+    public void setupGrassPositions() {
+        //for (int i = 0; i < GRASS_LIMIT; i++) {
+        for (int i = 0; i < 1; i++) {
+            //setEntity(new Coordinates(4, 4), new Grass(new Coordinates(4, 4)));
+            //setEntity(new Coordinates(0, 2), new Grass(new Coordinates(0, 2)));
+            //setEntity(new Coordinates(9, 0), new Grass(new Coordinates(9, 0)));
+            setEntity(new Coordinates(5, 5), new Grass(new Coordinates(5, 5)));
+            //setEntity(new Coordinates(3, 3), new Herbivore(new Coordinates(3, 3), 2, 5));
+        }
+    }
+
+    public boolean isGrassEnough(){
+        int grassCounter = 0;
+        List<Entity> entities = new ArrayList<>(entitiesByCoordinates.values());
+        for (var temp : entities){
+            if (temp instanceof Grass){
+                grassCounter++;
+            }
+        }
+        return grassCounter != 0 ? true : false;
     }
 
     public boolean isFood(Coordinates coordinates, Entity entity){
