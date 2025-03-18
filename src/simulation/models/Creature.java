@@ -3,6 +3,8 @@ package simulation.models;
 import simulation.Coordinates;
 import simulation.GameBoard;
 
+import java.util.Random;
+
 //Абстрактный класс, наследуется от Entity. Существо, имеет скорость (сколько клеток может пройти за 1 ход)
 // , количество HP. Имеет метод makeMove() - сделать ход.
 public abstract class Creature extends Entity {
@@ -19,6 +21,14 @@ public abstract class Creature extends Entity {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public static int getRandomHealth(){
+        return new Random().nextInt(4);//вынести в константу
+    }
+
+    public static int getRandomSpeed(){
+        return new Random().nextInt(6);//вынести в константу
     }
 
     public int getHealth() {

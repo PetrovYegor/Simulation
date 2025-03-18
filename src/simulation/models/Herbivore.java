@@ -33,8 +33,13 @@ public class Herbivore extends Creature {
     //возможно добавить этому методу возвращение boolean, что не нашёл травы, тогда сработает метод генерации травы
     private void bfs(int speed, GameBoard board) {//убрать из параметров GameBoard
         Coordinates[] directions = getDirections();
+        //чтобы реализовать обход препятствий, нужно ещё одну булеан двумерный массив иметь, где если в ячейке тру - то там препятсвие
+        //добавить проверку координат, что там не тру
+
+        //сделать 5х5 карту, в левом верхнем травоядное, правом нижнем траву
+        //посмотреть, как без препятствий дойдёт до травы. Вставить на пути дерево, посмотреть, как будет идти с учётом препятствия
         Queue<Coordinates> queue = new LinkedList<>();
-        boolean[][] visited = new boolean[5][5];//избавиться от хардкода
+        boolean[][] visited = new boolean[board.getHeight()][board.getWidth()];//избавиться от хардкода
         Map<Coordinates, Coordinates> traveledDistance = new HashMap<>();
         queue.add(this.getCoordinates());
         while (!queue.isEmpty()) {
@@ -51,18 +56,27 @@ public class Herbivore extends Creature {
                 return;
             }
             visited[current.getX()][current.getY()] = true;
-            for (Coordinates coordinates : directions) {
-                Coordinates newCoordinates = new Coordinates(current.getX() + coordinates.getX(), current.getY() + coordinates.getY());
-                if (GameBoard.isCoordinatesValid(newCoordinates)) {//если не выходим за поле
-                    if (!visited[newCoordinates.getX()][newCoordinates.getY()]){
-                        queue.add(newCoordinates);
-                        traveledDistance.put(newCoordinates, current);
-                    }
-                }
+            if (board.isBarrier(current)){
+                continue;
             }
+            addPredecessors(current, visited, queue, traveledDistance, board);
             //System.out.println(queue);
         }
         System.out.println("Еда не нашлась");
+    }
+
+    private void addPredecessors(Coordinates current, boolean[][] visited, Queue<Coordinates> queue, Map<Coordinates, Coordinates> traveledDistance, GameBoard board){
+        Coordinates[] directions = this.getDirections();
+        for (Coordinates coordinates : directions) {
+            Coordinates newCoordinates = new Coordinates(current.getX() + coordinates.getX(), current.getY() + coordinates.getY());
+            if (GameBoard.isCoordinatesValid(newCoordinates, board.getHeight(), board.getWidth())) {//если не выходим за поле
+                if (!visited[newCoordinates.getX()][newCoordinates.getY()]){
+                    queue.add(newCoordinates);
+                    traveledDistance.put(newCoordinates, current);
+                }
+            }
+        }
+
     }
 
     private void moveToFood(LinkedList<Coordinates> destination, GameBoard gameBoard) {
@@ -94,13 +108,13 @@ public class Herbivore extends Creature {
     private Coordinates[] getDirections() {
         Coordinates[] directions = {
                 new Coordinates(-1, 0),
-                new Coordinates(-1, 1),
-                new Coordinates(0, 1),
-                new Coordinates(1, 1),
+                //new Coordinates(-1, 1),
                 new Coordinates(1, 0),
-                new Coordinates(1, -1),
                 new Coordinates(0, -1),
-                new Coordinates(-1, -1),
+                new Coordinates(0, 1)
+                //new Coordinates(1, 1),
+                //new Coordinates(1, -1),
+                //new Coordinates(-1, -1),
         };
         return directions;
     }

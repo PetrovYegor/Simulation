@@ -3,7 +3,6 @@ package simulation;
 import simulation.actions.Action;
 import simulation.models.Creature;
 import simulation.models.Entity;
-import simulation.models.Herbivore;
 
 import java.util.List;
 
@@ -27,42 +26,31 @@ public class Simulation {
     //или травоядных, если их осталось слишком мало
     List<Action> turnActions;
 
-    public Simulation (GameBoard gameBoard){
+    public Simulation(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
         this.renderer = new BoardConsoleRenderer(gameBoard);//убрать эту зависимость
         moveCounter = 0;
     }
 
-    private void nextTurn(){
+    private void nextTurn() {
         renderer.render();
     }
 
     void startSimulation() throws InterruptedException {
-        while (true){
+        while (true) {
+            nextTurn();
             if (!gameBoard.isGrassEnough()){
                 gameBoard.setupGrassPositions();
             }
-            nextTurn();
-            for (Entity entity : gameBoard.getAllEntities()){
-                    if (entity instanceof Creature creature){
-                        creature.makeMove(gameBoard);
-                    }
-
-
+            for (Creature creature : gameBoard.getCreatures()) {
+                creature.makeMove(gameBoard);
             }
-            Thread.sleep(1000);
-
-//                gameBoard.setEntity(entity.coordinates, entity);
-//                gameBoard.removeEntity(oldCoordinates);
-            }
-
-            //Thread.sleep(500);
-            }
+            Thread.sleep(300);
+        }
+    }
 
 
-
-
-    private void pauseSimulation(){
+    private void pauseSimulation() {
 
     }
 }
