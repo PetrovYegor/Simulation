@@ -39,9 +39,9 @@ public class Simulation {
     void startSimulation() throws InterruptedException {
         while (true) {
             nextTurn();
-            if (!gameBoard.isGrassEnough()){
-                gameBoard.setupGrassPositions();
-            }
+//            if (!gameBoard.isGrassEnough()){//после окончания дебага раскомментировать
+//                gameBoard.setupGrassPositions();
+//            }
             for (Creature creature : gameBoard.getCreatures()) {
                 creature.makeMove(gameBoard);
             }

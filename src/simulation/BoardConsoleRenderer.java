@@ -1,9 +1,6 @@
 package simulation;
 
-import simulation.models.Entity;
-import simulation.models.Grass;
-import simulation.models.Herbivore;
-import simulation.models.Rock;
+import simulation.models.*;
 
 public class BoardConsoleRenderer {//существительное и что будет делать
     private final GameBoard board;
@@ -19,6 +16,10 @@ public class BoardConsoleRenderer {//существительное и что б
         System.out.println();
         System.out.println();
         System.out.println();
+        for (Creature cr : board.getCreatures()){
+            System.out.println(cr);
+        }
+
         for (int i = 0; i < board.getHeight(); i++) {
             String line = "";
             for (int j = 0; j < board.getWidth(); j++) {

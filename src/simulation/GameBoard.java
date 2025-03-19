@@ -26,21 +26,27 @@ public class GameBoard {
     }
 
     public void setupHerbivoresPositions() {
-        for (int i = 0; i < EntityLimitSettings.HERBIVORE_LIMIT; i++) {
+        //for (int i = 0; i < EntityLimitSettings.HERBIVORE_LIMIT; i++) {
+        for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
+            setEntity(new Coordinates(2, 8), new Herbivore(new Coordinates(2, 8), 2, 2));
+            setEntity(new Coordinates(3, 6), new Herbivore(new Coordinates(3, 6), 2, 2));
+            //setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
         }
     }
 
 
     public void setupGrassPositions() {
-        for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
+        //for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
+        for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+            //setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+            setEntity(new Coordinates(1, 7), new Grass(new Coordinates(1, 7)));
+            setEntity(new Coordinates(0, 7), new Grass(new Coordinates(0, 7)));
         }
     }
 
@@ -84,12 +90,6 @@ public class GameBoard {
             }
         }
         return result;
-    }
-
-    private boolean areCoordinatesInPlayingArea(Coordinates c) {
-        boolean xInCorrectRange = c.getX() >= 0 && c.getX() < getHeight();
-        boolean yInCorrectRange = c.getY() >= 0 && c.getY() < getWidth();
-        return xInCorrectRange && yInCorrectRange;
     }
 
     public boolean isGrassEnough() {
