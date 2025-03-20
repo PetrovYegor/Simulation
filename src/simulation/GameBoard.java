@@ -31,8 +31,8 @@ public class GameBoard {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(2, 8), new Herbivore(new Coordinates(2, 8), 2, 2));
-            setEntity(new Coordinates(3, 6), new Herbivore(new Coordinates(3, 6), 2, 2));
+            setEntity(new Coordinates(2, 2), new Herbivore(new Coordinates(2, 2), 2, 2));
+            //setEntity(new Coordinates(3, 0), new Herbivore(new Coordinates(3, 0), 2, 2));
             //setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
         }
     }
@@ -45,8 +45,8 @@ public class GameBoard {
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
             //setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-            setEntity(new Coordinates(1, 7), new Grass(new Coordinates(1, 7)));
-            setEntity(new Coordinates(0, 7), new Grass(new Coordinates(0, 7)));
+            //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
+            setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
         }
     }
 
