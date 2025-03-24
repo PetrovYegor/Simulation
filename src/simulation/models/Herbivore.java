@@ -32,6 +32,7 @@ public class Herbivore extends Creature {
 
     //возможно добавить этому методу возвращение boolean, что не нашёл травы, тогда сработает метод генерации травы
     private void bfs(int speed, GameBoard board) {//убрать из параметров GameBoard
+        int a = 123;
         //Map<Coordinates, Integer> cepochka_sosedej = new HashMap<>();
         //чтобы реализовать обход препятствий, нужно ещё одну булеан двумерный массив иметь, где если в ячейке тру - то там препятсвие
         //добавить проверку координат, что там не тру
