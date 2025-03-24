@@ -26,27 +26,27 @@ public class GameBoard {
     }
 
     public void setupHerbivoresPositions() {
-        //for (int i = 0; i < EntityLimitSettings.HERBIVORE_LIMIT; i++) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < EntityLimitSettings.HERBIVORE_LIMIT; i++) {
+        //for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(2, 2), new Herbivore(new Coordinates(2, 2), 2, 2));
+            //setEntity(new Coordinates(2, 2), new Herbivore(new Coordinates(2, 2), 2, 2));
             //setEntity(new Coordinates(3, 0), new Herbivore(new Coordinates(3, 0), 2, 2));
-            //setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
+            setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
         }
     }
 
 
     public void setupGrassPositions() {
-        //for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
+        //for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
-            //setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+            setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
             //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
-            setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
+            //setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
         }
     }
 

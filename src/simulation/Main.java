@@ -3,10 +3,10 @@ package simulation;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        GameBoard gameBoard = new GameBoard(4,4 );
+        GameBoard gameBoard = new GameBoard(5,5 );
         gameBoard.setupGrassPositions();
         gameBoard.setupHerbivoresPositions();
-        //gameBoard.setupRockPositions();
+        gameBoard.setupRockPositions();
         Simulation simulation = new Simulation(gameBoard);
         simulation.startSimulation();
     }

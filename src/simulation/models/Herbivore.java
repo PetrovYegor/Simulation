@@ -30,15 +30,7 @@ public class Herbivore extends Creature {
         bfs(speed, board);
     }
 
-    //возможно добавить этому методу возвращение boolean, что не нашёл травы, тогда сработает метод генерации травы
     private void bfs(int speed, GameBoard board) {//убрать из параметров GameBoard
-        int a = 123;
-        //Map<Coordinates, Integer> cepochka_sosedej = new HashMap<>();
-        //чтобы реализовать обход препятствий, нужно ещё одну булеан двумерный массив иметь, где если в ячейке тру - то там препятсвие
-        //добавить проверку координат, что там не тру
-
-        //сделать 5х5 карту, в левом верхнем травоядное, правом нижнем траву
-        //посмотреть, как без препятствий дойдёт до травы. Вставить на пути дерево, посмотреть, как будет идти с учётом препятствия
         Queue<Coordinates> queue = new LinkedList<>();
         boolean[][] visited = new boolean[board.getHeight()][board.getWidth()];//избавиться от хардкода
         Map<Coordinates, Coordinates> traveledDistance = new HashMap<>();
@@ -53,8 +45,10 @@ public class Herbivore extends Creature {
             if (!current.equals(source)) {//если очередная координата из очереди не совпадает с точкой старта
                 if (board.isFood(current, this)) {
                     LinkedList<Coordinates> coordinatesForMoving = reconstructPath(traveledDistance, current);
-                    if (moveToFood(coordinatesForMoving, board)){
+                    if (coordinatesForMoving.size() == 1) {//если стоим в одной клетке от еды, то не движемся к ней, мы её уже достигли
                         eat(current, board);
+                    } else {
+                        moveToFood(coordinatesForMoving, board);
                     }
                     //завершаем цикл
                     //код движения в сторону травы, или формирования пути
@@ -65,7 +59,6 @@ public class Herbivore extends Creature {
                 }
             }
             addPredecessors(current, visited, queue, traveledDistance, board);
-            //System.out.println(queue);
         }
         System.out.println("Еда не нашлась");
     }
@@ -85,19 +78,13 @@ public class Herbivore extends Creature {
     }
 
 
-    private boolean moveToFood(LinkedList<Coordinates> destination, GameBoard gameBoard) {
-        Coordinates target = destination.getLast();
-
-        if (destination.size() == 1) {//если стоим в одной клетке от еды, то не движемся к ней, мы её уже достигли
-            return true;
-        }
-
+    private void moveToFood(LinkedList<Coordinates> destination, GameBoard gameBoard) {
         int steps = 0;//счётчик потраченных очков speed
 
         for (var temp : destination) {
             if (steps < destination.size() && steps < this.speed) {//пока количество сделанных шагов не превышает путь до цели и не кончились очки скорости
-                if (steps == destination.size() - 1){//если мы уже находимся на расстоянии одной клетки от еды
-                    return true;
+                if (steps == destination.size() - 1) {//если мы уже находимся на расстоянии одной клетки от еды
+                    return;
                 }
                 Coordinates oldCoordinates = this.coordinates;
                 gameBoard.setEntity(temp, this);
@@ -105,7 +92,6 @@ public class Herbivore extends Creature {
                 steps++;
             }
         }
-        return false;
     }
 
     private void eat(Coordinates c, GameBoard board) {

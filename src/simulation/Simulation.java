@@ -38,14 +38,14 @@ public class Simulation {
 
     void startSimulation() throws InterruptedException {
         while (true) {
+            if (!gameBoard.isGrassEnough()){//после окончания дебага раскомментировать
+                gameBoard.setupGrassPositions();
+            }
             nextTurn();
-//            if (!gameBoard.isGrassEnough()){//после окончания дебага раскомментировать
-//                gameBoard.setupGrassPositions();
-//            }
             for (Creature creature : gameBoard.getCreatures()) {
                 creature.makeMove(gameBoard);
             }
-            Thread.sleep(300);
+            Thread.sleep(1000);
         }
     }
 
