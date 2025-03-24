@@ -25,15 +25,15 @@ public class GameBoard {
         entities.put(coordinates, entity);
     }
 
-    public void setupHerbivoresPositions() {
-        for (int i = 0; i < EntityLimitSettings.HERBIVORE_LIMIT; i++) {
+    public void setupDeerPositions() {
+        for (int i = 0; i < EntityLimitSettings.DEER_LIMIT; i++) {
         //for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
             //setEntity(new Coordinates(2, 2), new Herbivore(new Coordinates(2, 2), 2, 2));
             //setEntity(new Coordinates(3, 0), new Herbivore(new Coordinates(3, 0), 2, 2));
-            setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
+            setEntity(new Coordinates(x, y), new Deer(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
         }
     }
 
@@ -45,6 +45,30 @@ public class GameBoard {
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
             setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+            //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
+            //setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
+        }
+    }
+
+    public void setupWolfPositions(){
+        for (int i = 0; i < EntityLimitSettings.PREDATOR_LIMIT; i++) {
+            //for (int i = 0; i < 2; i++) {
+            Coordinates randomFreeCoordinates = getFreeCoordinates();
+            int x = randomFreeCoordinates.getX();
+            int y = randomFreeCoordinates.getY();
+            setEntity(new Coordinates(x, y), new Wolf(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth(), Creature.getRandomAttackPower()));
+            //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
+            //setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
+        }
+    }
+
+    public void setupTreePositions(){
+        for (int i = 0; i < EntityLimitSettings.TREE_LIMIT; i++) {
+            //for (int i = 0; i < 2; i++) {
+            Coordinates randomFreeCoordinates = getFreeCoordinates();
+            int x = randomFreeCoordinates.getX();
+            int y = randomFreeCoordinates.getY();
+            setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
             //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
             //setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
         }
@@ -93,7 +117,11 @@ public class GameBoard {
     }
 
     public boolean isGrassEnough() {
-        return getGrass().size() != 0 ? true : false;
+        return getGrass().size() > EntityLimitSettings.DEER_LIMIT + 1? true : false;
+    }
+
+    public boolean isHerbivoreEnough() {
+        return getHerbivores().size() >= EntityLimitSettings.PREDATOR_LIMIT ? true : false;
     }
 
     public boolean isFood(Coordinates targetCoordinates, Entity creature) {
@@ -102,14 +130,6 @@ public class GameBoard {
             return true;
         }
         if (isHerbivore(targetEntity) && isPredator(creature)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isBarrier(Coordinates coordinates) {
-        Entity targetEntity = entities.get(coordinates);
-        if (isRock(targetEntity) || isTree(targetEntity)) {
             return true;
         }
         return false;
@@ -147,20 +167,22 @@ public class GameBoard {
         return result;
     }
 
+    public List<Herbivore> getHerbivores() {
+        List<Herbivore> result = new ArrayList<>();
+        for (Entity entity : entities.values()) {
+            if (isHerbivore(entity)) {
+                result.add((Herbivore) entity);
+            }
+        }
+        return result;
+    }
+
     public boolean isCreature(Entity entity) {
         return entity instanceof Creature;
     }
 
     public boolean isGrass(Entity entity) {
         return entity instanceof Grass;
-    }
-
-    public boolean isRock(Entity entity) {
-        return entity instanceof Rock;
-    }
-
-    public boolean isTree(Entity entity) {
-        return entity instanceof Tree;
     }
 
     public boolean isHerbivore(Entity entity) {

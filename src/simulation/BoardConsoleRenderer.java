@@ -50,6 +50,10 @@ public class BoardConsoleRenderer {//существительное и что б
             resultSptite = Sprite.GRASS;
         } else if (entity instanceof Rock){
             resultSptite = Sprite.ROCK;
+        } else if (entity instanceof Predator){
+            resultSptite = Sprite.PREDATOR;
+        } else if (entity instanceof Tree){
+            resultSptite = Sprite.TREE;
         }
         return resultSptite;
     }

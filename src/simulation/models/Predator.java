@@ -25,6 +25,10 @@ public class Predator extends Creature {
         this.attackPower = attackPower;
     }
 
+    public int getAttackPower() {
+        return attackPower;
+    }
+
     //нужен метод движения
     //нужен метод атаки
 }

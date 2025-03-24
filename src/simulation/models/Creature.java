@@ -24,11 +24,15 @@ public abstract class Creature extends Entity {
     }
 
     public static int getRandomHealth() {
-        return new Random().nextInt(4);//вынести в константу
+        return new Random().nextInt(4) + 3;//вынести в константу
     }
 
     public static int getRandomSpeed() {
         return new Random().nextInt(5) + 1;//вынести в константу
+    }
+
+    public static int getRandomAttackPower(){
+        return new Random().nextInt(2) + 1;//вынести в константу
     }
 
     public int getHealth() {
@@ -36,6 +40,10 @@ public abstract class Creature extends Entity {
     }
 
     public abstract void makeMove(GameBoard board);
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 
     @Override
     public String toString() {

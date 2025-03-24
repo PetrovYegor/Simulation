@@ -41,6 +41,9 @@ public class Simulation {
             if (!gameBoard.isGrassEnough()){//после окончания дебага раскомментировать
                 gameBoard.setupGrassPositions();
             }
+            if (!gameBoard.isHerbivoreEnough()){//после окончания дебага раскомментировать
+                gameBoard.setupDeerPositions();
+            }
             nextTurn();
             for (Creature creature : gameBoard.getCreatures()) {
                 creature.makeMove(gameBoard);

@@ -2,11 +2,12 @@ package simulation;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-
-        GameBoard gameBoard = new GameBoard(5,5 );
+        GameBoard gameBoard = new GameBoard(10,10 );
         gameBoard.setupGrassPositions();
-        gameBoard.setupHerbivoresPositions();
+        gameBoard.setupDeerPositions();
         gameBoard.setupRockPositions();
+        gameBoard.setupWolfPositions();
+        gameBoard.setupTreePositions();
         Simulation simulation = new Simulation(gameBoard);
         simulation.startSimulation();
     }
