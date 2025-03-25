@@ -19,15 +19,28 @@ public class GameBoard {
         this.entities = new HashMap<>();
     }
 
-    //установить фигуру на игровой карте
     public void setEntity(Coordinates coordinates, Entity entity) {
         entity.coordinates = coordinates;
         entities.put(coordinates, entity);
     }
 
+    public Entity getEntity(Coordinates coordinates) {
+        return entities.get(coordinates);
+    }
+
+    public void removeEntity(Coordinates coordinates) {
+        entities.remove(coordinates);
+    }
+
+    public void move(Coordinates from, Coordinates to){
+        Entity entity = getEntity(from);
+        removeEntity(from);
+        setEntity(to, entity);
+    }
+
     public void setupDeerPositions() {
         for (int i = 0; i < EntityLimitSettings.DEER_LIMIT; i++) {
-        //for (int i = 0; i < 2; i++) {
+            //for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
@@ -40,7 +53,7 @@ public class GameBoard {
 
     public void setupGrassPositions() {
         for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
-        //for (int i = 0; i < 2; i++) {
+            //for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
@@ -50,7 +63,7 @@ public class GameBoard {
         }
     }
 
-    public void setupWolfPositions(){
+    public void setupWolfPositions() {
         for (int i = 0; i < EntityLimitSettings.PREDATOR_LIMIT; i++) {
             //for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
@@ -62,7 +75,7 @@ public class GameBoard {
         }
     }
 
-    public void setupTreePositions(){
+    public void setupTreePositions() {
         for (int i = 0; i < EntityLimitSettings.TREE_LIMIT; i++) {
             //for (int i = 0; i < 2; i++) {
             Coordinates randomFreeCoordinates = getFreeCoordinates();
@@ -117,7 +130,7 @@ public class GameBoard {
     }
 
     public boolean isGrassEnough() {
-        return getGrass().size() > EntityLimitSettings.DEER_LIMIT + 1? true : false;
+        return getGrass().size() > EntityLimitSettings.DEER_LIMIT + 1 ? true : false;
     }
 
     public boolean isHerbivoreEnough() {
@@ -135,16 +148,8 @@ public class GameBoard {
         return false;
     }
 
-    public boolean isCellEmpty(Coordinates coordinates) {//метод для рендера
+    public boolean isCellEmpty(Coordinates coordinates) {
         return !entities.containsKey(coordinates);
-    }
-
-    public Entity getEntity(Coordinates coordinates) {//метод для рендера
-        return entities.get(coordinates);
-    }
-
-    public void removeEntity(Coordinates coordinates) {
-        entities.remove(coordinates);
     }
 
     public List<Creature> getCreatures() {
