@@ -1,6 +1,7 @@
 package simulation.actions;
 
-public abstract class Action {
+public interface Action {
+    public void execute();
 }
 /*
 Action - действие, совершаемое над миром. Например - сходить всеми существами.

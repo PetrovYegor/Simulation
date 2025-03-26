@@ -1,14 +1,22 @@
 package simulation;
 
+import simulation.actions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         GameBoard gameBoard = new GameBoard(10,10 );
-        gameBoard.setupGrassPositions();
-        gameBoard.setupDeerPositions();
-        gameBoard.setupRockPositions();
-        gameBoard.setupWolfPositions();
-        gameBoard.setupTreePositions();
         Simulation simulation = new Simulation(gameBoard);
+        List<Action> initActions = new ArrayList<>();
+        initActions.add(new SetupGrassAction(gameBoard));
+        initActions.add(new SetupRockAction(gameBoard));
+        initActions.add(new SetupWolfAction(gameBoard));
+        initActions.add(new SetupTreeAction(gameBoard));
+        initActions.add(new SetupDeerAction(gameBoard));
+        simulation.setInitActions(initActions);
+
         simulation.startSimulation();
     }
 }

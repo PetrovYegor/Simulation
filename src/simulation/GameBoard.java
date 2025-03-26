@@ -32,72 +32,14 @@ public class GameBoard {
         entities.remove(coordinates);
     }
 
-    public void move(Coordinates from, Coordinates to){
+    public void moveEntity(Coordinates from, Coordinates to){
         Entity entity = getEntity(from);
         removeEntity(from);
         setEntity(to, entity);
     }
 
-    public void setupDeerPositions() {
-        for (int i = 0; i < EntityLimitSettings.DEER_LIMIT; i++) {
-            //for (int i = 0; i < 2; i++) {
-            Coordinates randomFreeCoordinates = getFreeCoordinates();
-            int x = randomFreeCoordinates.getX();
-            int y = randomFreeCoordinates.getY();
-            //setEntity(new Coordinates(2, 2), new Herbivore(new Coordinates(2, 2), 2, 2));
-            //setEntity(new Coordinates(3, 0), new Herbivore(new Coordinates(3, 0), 2, 2));
-            setEntity(new Coordinates(x, y), new Deer(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
-        }
-    }
-
-
-    public void setupGrassPositions() {
-        for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
-            //for (int i = 0; i < 2; i++) {
-            Coordinates randomFreeCoordinates = getFreeCoordinates();
-            int x = randomFreeCoordinates.getX();
-            int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-            //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
-            //setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
-        }
-    }
-
-    public void setupWolfPositions() {
-        for (int i = 0; i < EntityLimitSettings.PREDATOR_LIMIT; i++) {
-            //for (int i = 0; i < 2; i++) {
-            Coordinates randomFreeCoordinates = getFreeCoordinates();
-            int x = randomFreeCoordinates.getX();
-            int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(x, y), new Wolf(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth(), Creature.getRandomAttackPower()));
-            //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
-            //setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
-        }
-    }
-
-    public void setupTreePositions() {
-        for (int i = 0; i < EntityLimitSettings.TREE_LIMIT; i++) {
-            //for (int i = 0; i < 2; i++) {
-            Coordinates randomFreeCoordinates = getFreeCoordinates();
-            int x = randomFreeCoordinates.getX();
-            int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-            //setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
-            //setEntity(new Coordinates(1,1), new Grass(new Coordinates(1, 1)));
-        }
-    }
-
-    public void setupRockPositions() {
-        for (int i = 0; i < EntityLimitSettings.ROCK_LIMIT; i++) {
-            Coordinates randomFreeCoordinates = getFreeCoordinates();
-            int x = randomFreeCoordinates.getX();
-            int y = randomFreeCoordinates.getY();
-            setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-        }
-    }
-
     //Нужно создать метод, который будет вовзращать игровую мапу по переданной ширине и высоте, при условии, что ширина и высота валидная. Спросить у ИИ как сделать, какой-то паттерн, наверное
-    private Coordinates getFreeCoordinates() {
+    public Coordinates getFreeCoordinates() {
         Set<Coordinates> takenCoordinates = entities.keySet();
         Set<Coordinates> allGameBoardCoordinates = getAllGameBoardCoordinates();
         if (takenCoordinates == null || isNullOrEmptySet(allGameBoardCoordinates)) {
@@ -213,11 +155,7 @@ public class GameBoard {
         boolean yValid = targetY >= 0 && targetY < width;//!!!!!! убрать хардкод
         return xValid && yValid;
     }
-
-
 }
 
 //заполнить размер поля через диалог?
 //Карта, содержит в себе коллекцию для хранения существ и их расположения.
-// Советую не спешить использовать двумерный массив или список списков,
-// а подумать какие ещё коллекции могут подойти.
