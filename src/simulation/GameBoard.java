@@ -7,15 +7,12 @@ import java.util.*;
 public class GameBoard {
     private final int height;
     private final int width;
-
-    private final Random random;
     private final Map<Coordinates, Entity> entities;
 
 
     public GameBoard(int height, int width) {
         this.height = height;
         this.width = width;
-        random = new Random();
         this.entities = new HashMap<>();
     }
 
@@ -46,7 +43,7 @@ public class GameBoard {
             throw new IllegalArgumentException("The Set cannot be null.");
         }
         allGameBoardCoordinates.removeAll(takenCoordinates);
-        int randomIndex = random.nextInt(allGameBoardCoordinates.size());
+        int randomIndex = new Random().nextInt(allGameBoardCoordinates.size());
         int counter = 0;
         for (Coordinates c : allGameBoardCoordinates) {
             if (counter == randomIndex) {
@@ -158,4 +155,3 @@ public class GameBoard {
 }
 
 //заполнить размер поля через диалог?
-//Карта, содержит в себе коллекцию для хранения существ и их расположения.

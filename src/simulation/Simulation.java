@@ -1,62 +1,62 @@
 package simulation;
 
 import simulation.actions.Action;
+import simulation.actions.setup_actions.*;
+import simulation.actions.turn_actions.AddDeerAction;
+import simulation.actions.turn_actions.AddGrassAction;
+import simulation.actions.turn_actions.MakeMoveAction;
 import simulation.models.Creature;
-import simulation.models.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private GameBoard gameBoard;//игровое поле
-    private int moveCounter;//счётчик ходов
+    private final GameBoard board;
+    private int moveCounter = 0;
+    private final BoardConsoleRenderer renderer;
+    private final List<Action> initActions;
+    private final List<Action> turnActions;
 
-    private BoardConsoleRenderer renderer;
-
-    //действия, совершаемые перед стартом симуляции. Пример - расставить объекты
-    //и существ на карте
-    //public List<Action> initActions;
-    //действия, совершаемые каждый ход. Примеры - передвижение существ, добавить травы
-    //или травоядных, если их осталось слишком мало
-
-    public List<Action> initActions;
-    List<Action> turnActions;
-
-    public Simulation(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-        this.renderer = new BoardConsoleRenderer(gameBoard);//убрать эту зависимость
-        moveCounter = 0;
+    public Simulation(GameBoard board) {
+        this.board = board;
+        this.renderer = new BoardConsoleRenderer(board);
+        initActions = getInitActions();
+        this.turnActions = getTurnActions();
     }
 
-    public void setInitActions(List<Action> actions){
-        initActions = actions;
+    private List<Action> getInitActions() {
+        List<Action> result = new ArrayList<>();
+        result.add(new SetupGrassAction(board));
+        result.add(new SetupRockAction(board));
+        result.add(new SetupWolfAction(board));
+        result.add(new SetupTreeAction(board));
+        result.add(new SetupDeerAction(board));
+        return result;
     }
 
-    public void setTurnActions(List<Action> actions){
-        turnActions = actions;
+    public List<Action> getTurnActions() {
+        List<Action> result = new ArrayList<>();
+        result.add(new AddDeerAction(board));
+        result.add(new AddGrassAction(board));
+        result.add(new MakeMoveAction(board));
+        return result;
     }
-
-
 
     private void nextTurn() {
         renderer.render();
+        for (Action action : turnActions){
+            action.execute();
+        }
+        moveCounter++;
     }
 
     void startSimulation() throws InterruptedException {
-        for (Action action : initActions){
+        for (Action action : initActions) {
             action.execute();
         }
 
         while (true) {
-//            if (!gameBoard.isGrassEnough()){//после окончания дебага раскомментировать
-//                gameBoard.setupGrassPositions();
-//            }
-//            if (!gameBoard.isHerbivoreEnough()){//после окончания дебага раскомментировать
-//                gameBoard.setupDeerPositions();
-//            }
             nextTurn();
-            for (Creature creature : gameBoard.getCreatures()) {
-                creature.makeMove(gameBoard);
-            }
             Thread.sleep(1000);
         }
     }

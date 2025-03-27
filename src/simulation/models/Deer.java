@@ -13,13 +13,12 @@ public class Deer extends Herbivore{
         super(coordinates, speed, health);
     }
 
-
     @Override
     public void makeMove(GameBoard board) {
-        bfs(speed, board);
+        bfs(board);
     }
 
-    private void bfs(int speed, GameBoard board) {//убрать из параметров GameBoard
+    private void bfs(GameBoard board) {//убрать из параметров GameBoard
         Queue<Coordinates> queue = new LinkedList<>();
         boolean[][] visited = new boolean[board.getHeight()][board.getWidth()];//избавиться от хардкода
         Map<Coordinates, Coordinates> traveledDistance = new HashMap<>();
@@ -66,7 +65,7 @@ public class Deer extends Herbivore{
         }
     }
 
-    private void moveToFood(LinkedList<Coordinates> destination, GameBoard gameBoard) {
+    private void moveToFood(LinkedList<Coordinates> destination, GameBoard board) {
         int steps = 0;//счётчик потраченных очков speed
 
         for (var temp : destination) {
@@ -75,8 +74,8 @@ public class Deer extends Herbivore{
                     return;
                 }
                 Coordinates oldCoordinates = this.coordinates;
-                gameBoard.setEntity(temp, this);
-                gameBoard.removeEntity(oldCoordinates);
+                board.setEntity(temp, this);
+                board.removeEntity(oldCoordinates);
                 steps++;
             }
         }

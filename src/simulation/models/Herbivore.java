@@ -22,6 +22,4 @@ public class Herbivore extends Creature {
     public void makeMove(GameBoard board) {
 
     }
-
-
 }

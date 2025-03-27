@@ -2,23 +2,18 @@ package simulation;
 
 import simulation.models.*;
 
-public class BoardConsoleRenderer {//существительное и что будет делать
+public class BoardConsoleRenderer {
     private final GameBoard board;
-
     BoardConsoleRenderer(GameBoard board) {
         this.board = board;
     }
-
-    public void render() {//цикл выводить будем построчно. Для пустой клетки - пустота. Для занятой - спрайт фигуры
+    public void render() {
         System.out.println();
         System.out.println();
         System.out.println();
         System.out.println();
         System.out.println();
         System.out.println();
-        for (Creature cr : board.getCreatures()){
-            System.out.println(cr);
-        }
 
         for (int i = 0; i < board.getHeight(); i++) {
             String line = "";
@@ -27,45 +22,31 @@ public class BoardConsoleRenderer {//существительное и что б
                 if (board.isCellEmpty(coordinates)) {
                     line += getSpriteForEmptyCell();
                 } else {
-                    Object entity = board.getEntity(coordinates);
+                    Entity entity = board.getEntity(coordinates);
                     line += getEntitySprite(entity);
                 }
-
-
             }
             System.out.println(line);
         }
-    }//принимает доску и рендерим
+    }
 
     private String getSpriteForEmptyCell() {
-
         return Sprite.GROUND;
     }
 
-    private String getEntitySprite(Object entity) {//поменять аргумент
+    private String getEntitySprite(Entity entity) {//поменять аргумент
         String resultSptite = "";
-        if (entity instanceof Herbivore){
+        if (entity instanceof Herbivore) {
             resultSptite = Sprite.HERBIVORE;
-        } else if (entity instanceof Grass){
+        } else if (entity instanceof Grass) {
             resultSptite = Sprite.GRASS;
-        } else if (entity instanceof Rock){
+        } else if (entity instanceof Rock) {
             resultSptite = Sprite.ROCK;
-        } else if (entity instanceof Predator){
+        } else if (entity instanceof Predator) {
             resultSptite = Sprite.PREDATOR;
-        } else if (entity instanceof Tree){
+        } else if (entity instanceof Tree) {
             resultSptite = Sprite.TREE;
         }
         return resultSptite;
     }
-    //+ константы для раскрашивания фона символа в консоли
-    //+ методы раскраски
-
-
 }
-//мб это не должно быть в actions
-//совершает операции над картой GameBoard (принимает при создании)
-/*
-Рендерер #
-Рендерер ответственен за визуализацию состояния поля, его отрисовку.
-По желанию студента интерфейс приложения может быть консольным, либо графическим.
-* */

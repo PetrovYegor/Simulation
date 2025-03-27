@@ -1,24 +1,26 @@
-package simulation.actions;
+package simulation.actions.setup_actions;
 
 import simulation.Coordinates;
 import simulation.EntityLimitSettings;
 import simulation.GameBoard;
-import simulation.models.Creature;
-import simulation.models.Deer;
+import simulation.actions.Action;
+import simulation.models.Rock;
 
-public class SetupDeerAction implements Action{
+public class SetupRockAction implements Action {
+
     private final GameBoard board;
 
-    public SetupDeerAction(GameBoard board){
+    public SetupRockAction(GameBoard board) {
         this.board = board;
     }
+
     @Override
     public void execute() {
-        for (int i = 0; i < EntityLimitSettings.DEER_LIMIT; i++) {
+        for (int i = 0; i < EntityLimitSettings.ROCK_LIMIT; i++) {
             Coordinates randomFreeCoordinates = board.getFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
-            board.setEntity(new Coordinates(x, y), new Deer(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
+            board.setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
         }
     }
 }

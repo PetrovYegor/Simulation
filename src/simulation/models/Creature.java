@@ -31,7 +31,7 @@ public abstract class Creature extends Entity {
         return new Random().nextInt(5) + 1;//вынести в константу
     }
 
-    public static int getRandomAttackPower(){
+    public static int getRandomAttackPower() {
         return new Random().nextInt(2) + 1;//вынести в константу
     }
 
@@ -44,14 +44,6 @@ public abstract class Creature extends Entity {
     public void setHealth(int health) {
         this.health = health;
     }
-
-    @Override
-    public String toString() {
-        return "Creature{" +
-                "speed=" + speed +
-                ", health=" + health +
-                '}';
-    }//можно удалить, создал для дебага
 
     //получить уровень здоровья
     //проверить не равен ли уровень здоровья 0, если да, то мёртв

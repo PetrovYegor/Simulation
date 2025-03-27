@@ -8,16 +8,17 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-public class Wolf extends Predator{
+public class Wolf extends Predator {
     public Wolf(Coordinates coordinates, int speed, int health, int attackPower) {
         super(coordinates, speed, health, attackPower);
     }
+
     @Override
     public void makeMove(GameBoard board) {
-        bfs(speed, board);
+        bfs(board);
     }
 
-    private void bfs(int speed, GameBoard board) {//убрать из параметров GameBoard
+    private void bfs(GameBoard board) {//убрать из параметров GameBoard
         Queue<Coordinates> queue = new LinkedList<>();
         boolean[][] visited = new boolean[board.getHeight()][board.getWidth()];//избавиться от хардкода
         Map<Coordinates, Coordinates> traveledDistance = new HashMap<>();
@@ -64,18 +65,18 @@ public class Wolf extends Predator{
         }
     }
 
-    private void moveToFood(LinkedList<Coordinates> destination, GameBoard gameBoard) {
+    private void moveToFood(LinkedList<Coordinates> destination, GameBoard board) {
         int steps = 0;//счётчик потраченных очков speed
 
         for (var temp : destination) {
             if (steps < destination.size() && steps < this.speed) {//пока количество сделанных шагов не превышает путь до цели и не кончились очки скорости
                 if (steps == destination.size() - 1) {//если мы уже находимся на расстоянии одной клетки от еды
-                    eat(temp, gameBoard);
+                    eat(temp, board);
                     return;
                 }
                 Coordinates oldCoordinates = this.coordinates;
-                gameBoard.setEntity(temp, this);
-                gameBoard.removeEntity(oldCoordinates);
+                board.setEntity(temp, this);
+                board.removeEntity(oldCoordinates);
                 steps++;
             }
         }
@@ -86,17 +87,17 @@ public class Wolf extends Predator{
         attackHerbivore(target, board);
     }
 
-    private void attackHerbivore(Herbivore h, GameBoard board){
+    private void attackHerbivore(Herbivore h, GameBoard board) {
         int currentHerbivoreHealth = h.getHealth();
         currentHerbivoreHealth -= this.getAttackPower();
-        if (isDead(currentHerbivoreHealth)){
+        if (isDead(currentHerbivoreHealth)) {
             board.removeEntity(h.coordinates);
         } else {
             h.setHealth(currentHerbivoreHealth);
         }
     }
 
-    private boolean isDead(int currentHerbivoreHealth){
+    private boolean isDead(int currentHerbivoreHealth) {
         return currentHerbivoreHealth <= 0 ? true : false;
     }
 

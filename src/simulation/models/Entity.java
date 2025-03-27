@@ -5,15 +5,13 @@ import simulation.Coordinates;
 //Корневой абстрактный класс для всех существ и объектов существующих в симуляции.
 public abstract class Entity {
     public Coordinates coordinates;
-    public Entity (Coordinates coordinates){
+
+    public Entity(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
 
-    public Coordinates getCoordinates(){
+    public Coordinates getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinate(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
 }
