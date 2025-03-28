@@ -10,9 +10,8 @@ public class PathFinder {
         this.board = board;
     }
 
-    private List<Coordinates> bfs(GameBoard board, Creature creature){
-        List<Coordinates> result = Collections.emptyList();
-
+    public List<Coordinates> bfs(GameBoard board, Creature creature){
+        List<Coordinates> coordinatesForMoving = Collections.emptyList();
 
         Queue<Coordinates> queue = new LinkedList<>();
         boolean[][] visited = new boolean[board.getHeight()][board.getWidth()];
@@ -21,30 +20,45 @@ public class PathFinder {
         queue.add(start);
         while (!queue.isEmpty()) {
             Coordinates current = queue.poll();
-            if (visited[current.getX()][current.getY()] == true) {//если была посещена ранее, следующая итерация
+            if (visited[current.getX()][current.getY()] == true) {//если была посещена ранее, пропускаем итерацию
                 continue;
             }
             visited[current.getX()][current.getY()] = true;//помечаем посещённой
-            if (!current.equals(start)) {//если очередная координата из очереди не совпадает с точкой старта
+            if (!current.equals(start)) {//если это не стартовая координата, откуда будет строиться путь
                 if (board.isFood(current, creature)) {
-                    LinkedList<Coordinates> coordinatesForMoving = reconstructPath(traveledDistance, current);
-                    if (coordinatesForMoving.size() == 1) {//если стоим в одной клетке от еды, то не движемся к ней, мы её уже достигли
-                        eat(current, board);
-                    } else {
-                        moveToFood(coordinatesForMoving, board);
-                    }
-                    //завершаем цикл
-                    //код движения в сторону травы, или формирования пути
-                    return;
+                    coordinatesForMoving = reconstructPath(distanceToTarget, current);
+                    break;
                 }
                 if (!board.isCellEmpty(current)) {//если текущая координата не пустая - пропускаем её
                     continue;
                 }
             }
-            addPredecessors(current, visited, queue, traveledDistance, board);
+            addPredecessors(current, visited, queue, distanceToTarget, board);
         }
-        System.out.println("Еда не нашлась");
+        return coordinatesForMoving;
 
+    }
+
+    private void addPredecessors(Coordinates current, boolean[][] visited, Queue<Coordinates> queue, Map<Coordinates, Coordinates> distanceToTarget, GameBoard board) {
+        Coordinates[] directions = this.getDirections();
+        for (Coordinates coordinates : directions) {
+            Coordinates newCoordinates = new Coordinates(current.getX() + coordinates.getX(), current.getY() + coordinates.getY());
+            if (GameBoard.isCoordinatesValid(newCoordinates, board.getHeight(), board.getWidth())) {//если не выходим за поле
+                if (!visited[newCoordinates.getX()][newCoordinates.getY()] && !queue.contains(newCoordinates)) {
+                    queue.add(newCoordinates);
+                    distanceToTarget.put(newCoordinates, current);
+                }
+            }
+        }
+    }
+
+    private Coordinates[] getDirections() {
+        return new Coordinates[]{
+                new Coordinates(-1, 0),
+                new Coordinates(1, 0),
+                new Coordinates(0, -1),
+                new Coordinates(0, 1)
+        };
     }
 
     private LinkedList<Coordinates> reconstructPath(Map<Coordinates, Coordinates> traveledDistance, Coordinates target) {
