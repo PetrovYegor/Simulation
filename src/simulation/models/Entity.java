@@ -2,9 +2,8 @@ package simulation.models;
 
 import simulation.Coordinates;
 
-//Корневой абстрактный класс для всех существ и объектов существующих в симуляции.
 public abstract class Entity {
-    public Coordinates coordinates;
+    private Coordinates coordinates;
 
     public Entity(Coordinates coordinates) {
         this.coordinates = coordinates;
@@ -14,4 +13,7 @@ public abstract class Entity {
         return coordinates;
     }
 
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
 }

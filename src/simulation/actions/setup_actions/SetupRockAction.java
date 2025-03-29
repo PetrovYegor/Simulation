@@ -17,7 +17,7 @@ public class SetupRockAction implements Action {
     @Override
     public void execute() {
         for (int i = 0; i < EntityLimitSettings.ROCK_LIMIT; i++) {
-            Coordinates randomFreeCoordinates = board.getFreeCoordinates();
+            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
             int x = randomFreeCoordinates.getX();
             int y = randomFreeCoordinates.getY();
             board.setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));

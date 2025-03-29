@@ -1,6 +1,6 @@
 package simulation;
 
-import simulation.models.*;
+import simulation.models.Entity;
 
 import java.util.*;
 
@@ -9,6 +9,13 @@ public class GameBoard {
     private final int width;
     private final Map<Coordinates, Entity> entities;
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 
     public GameBoard(int height, int width) {
         this.height = height;
@@ -17,7 +24,7 @@ public class GameBoard {
     }
 
     public void setEntity(Coordinates coordinates, Entity entity) {
-        entity.coordinates = coordinates;
+        entity.setCoordinates(coordinates);
         entities.put(coordinates, entity);
     }
 
@@ -29,33 +36,30 @@ public class GameBoard {
         entities.remove(coordinates);
     }
 
-    public void moveEntity(Coordinates from, Coordinates to){
+    public void moveEntity(Coordinates from, Coordinates to) {
         Entity entity = getEntity(from);
         removeEntity(from);
         setEntity(to, entity);
     }
 
-    //Нужно создать метод, который будет вовзращать игровую мапу по переданной ширине и высоте, при условии, что ширина и высота валидная. Спросить у ИИ как сделать, какой-то паттерн, наверное
-    public Coordinates getFreeCoordinates() {
-        Set<Coordinates> takenCoordinates = entities.keySet();
-        Set<Coordinates> allGameBoardCoordinates = getAllGameBoardCoordinates();
-        if (takenCoordinates == null || isNullOrEmptySet(allGameBoardCoordinates)) {
-            throw new IllegalArgumentException("The Set cannot be null.");
-        }
-        allGameBoardCoordinates.removeAll(takenCoordinates);
-        int randomIndex = new Random().nextInt(allGameBoardCoordinates.size());
-        int counter = 0;
-        for (Coordinates c : allGameBoardCoordinates) {
-            if (counter == randomIndex) {
-                return c;
+    public <T extends Entity> List<T> getCertainEntities(Class<T> entityType) {
+        List<T> result = new ArrayList<>();
+        for (Entity entity : entities.values()) {
+            if (entityType.isInstance(entity)) {
+                result.add(entityType.cast(entity));
             }
-            counter++;
         }
-        throw new IllegalStateException("Something went wrong while picking a random element.");
+        return result;
     }
 
-    private boolean isNullOrEmptySet(Set<Coordinates> coordinates) {
-        return (coordinates == null || coordinates.isEmpty());
+    public Coordinates getRandomFreeCoordinates() {
+        Set<Coordinates> allCoordinates = getAllGameBoardCoordinates();
+        for (Coordinates c : allCoordinates) {
+            if (isCoordinatesEmpty(c)) {
+                return c;
+            }
+        }
+        throw new IllegalStateException("The game board cannot be without free cells!");
     }
 
     private Set<Coordinates> getAllGameBoardCoordinates() {
@@ -68,90 +72,15 @@ public class GameBoard {
         return result;
     }
 
-    public boolean isGrassEnough() {
-        return getGrass().size() > EntityLimitSettings.DEER_LIMIT + 1 ? true : false;
+    public boolean isCoordinatesEmpty(Coordinates c) {
+        return !entities.containsKey(c);
     }
 
-    public boolean isHerbivoreEnough() {
-        return getHerbivores().size() >= EntityLimitSettings.PREDATOR_LIMIT ? true : false;
-    }
-
-    public boolean isFood(Coordinates targetCoordinates, Entity creature) {
-        Entity targetEntity = entities.get(targetCoordinates);
-        if (isGrass(targetEntity) && isHerbivore(creature)) {
-            return true;
-        }
-        if (isHerbivore(targetEntity) && isPredator(creature)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isCellEmpty(Coordinates coordinates) {
-        return !entities.containsKey(coordinates);
-    }
-
-    public List<Creature> getCreatures() {
-        List<Creature> result = new ArrayList<>();
-        for (Entity entity : entities.values()) {
-            if (isCreature(entity)) {
-                result.add((Creature) entity);
-            }
-        }
-        return result;
-    }
-
-    public List<Grass> getGrass() {
-        List<Grass> result = new ArrayList<>();
-        for (Entity entity : entities.values()) {
-            if (isGrass(entity)) {
-                result.add((Grass) entity);
-            }
-        }
-        return result;
-    }
-
-    public List<Herbivore> getHerbivores() {
-        List<Herbivore> result = new ArrayList<>();
-        for (Entity entity : entities.values()) {
-            if (isHerbivore(entity)) {
-                result.add((Herbivore) entity);
-            }
-        }
-        return result;
-    }
-
-    public boolean isCreature(Entity entity) {
-        return entity instanceof Creature;
-    }
-
-    public boolean isGrass(Entity entity) {
-        return entity instanceof Grass;
-    }
-
-    public boolean isHerbivore(Entity entity) {
-        return entity instanceof Herbivore;
-    }
-
-    public boolean isPredator(Entity entity) {
-        return entity instanceof Predator;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public static boolean isCoordinatesValid(Coordinates coordinates, int height, int width) {
+    public boolean isCoordinatesValid(Coordinates coordinates) {//это лучше в класс координат перенести
         int targetX = coordinates.getX();
         int targetY = coordinates.getY();
-        boolean xValid = targetX >= 0 && targetX < height;//!!!!!! убрать хардкод
-        boolean yValid = targetY >= 0 && targetY < width;//!!!!!! убрать хардкод
+        boolean xValid = targetX >= 0 && targetX < getHeight();
+        boolean yValid = targetY >= 0 && targetY < getWidth();
         return xValid && yValid;
     }
 }
-
-//заполнить размер поля через диалог?

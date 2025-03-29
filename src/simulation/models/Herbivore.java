@@ -16,7 +16,7 @@ public class Herbivore extends Creature {
     @Override
     public void makeMove(List<Coordinates> coordinatesForMoving, GameBoard board) {
         if (coordinatesForMoving.size() == 1) {//если стоим в одной клетке от еды, то не движемся к ней, мы её уже достигли
-            eat(this.coordinates, board);
+            eat(this.getCoordinates(), board);
         } else {
             moveToFood(coordinatesForMoving, board);
         }
@@ -34,7 +34,7 @@ public class Herbivore extends Creature {
                 if (steps == coordinatesForMoving.size() - 1) {//если мы уже находимся на расстоянии одной клетки от еды
                     return;
                 }
-                Coordinates oldCoordinates = this.coordinates;
+                Coordinates oldCoordinates = this.getCoordinates();
                 board.moveEntity(oldCoordinates, newCoordinates);
                 steps++;
             }

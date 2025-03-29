@@ -19,9 +19,9 @@ public class MakeMoveAction implements Action {
 
     @Override
     public void execute() {
-        List<Creature> creatures = board.getCreatures();
+        List<Creature> creatures = board.getCertainEntities(Creature.class);
         for (Creature creature : creatures) {
-            List<Coordinates> coordinatesForMoving = pathFinder.bfs(board, creature);
+            List<Coordinates> coordinatesForMoving = pathFinder.searchFood(creature);
             creature.makeMove(coordinatesForMoving, board);
         }
     }

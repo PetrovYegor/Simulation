@@ -1,26 +1,25 @@
 package simulation.actions.setup_actions;
 
 import simulation.Coordinates;
-import simulation.EntityLimitSettings;
 import simulation.GameBoard;
 import simulation.actions.Action;
-import simulation.models.Grass;
+import simulation.models.Herbivore;
 
-public class SetupGrassAction implements Action {
+public class SetupHerbivoreAction implements Action {
     private final GameBoard board;
 
-    public SetupGrassAction(GameBoard board) {
+    public SetupHerbivoreAction(GameBoard board) {
         this.board = board;
     }
 
     @Override
     public void execute() {
-//        for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
+//        for (int i = 0; i < EntityLimitSettings.DEER_LIMIT; i++) {
 //            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
 //            int x = randomFreeCoordinates.getX();
 //            int y = randomFreeCoordinates.getY();
-//            board.setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//            board.setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
 //        }
-        board.setEntity(new Coordinates(1, 3), new Grass(new Coordinates(1, 3)));
+        board.setEntity(new Coordinates(1, 1), new Herbivore(new Coordinates(1, 1), 2, 2));
     }
 }

@@ -25,17 +25,17 @@ public abstract class Creature extends Entity {
         return speed;
     }
 
-    public static int getRandomHealth() {
-        return new Random().nextInt(4) + 3;//вынести в константу
-    }
-
-    public static int getRandomSpeed() {
-        return new Random().nextInt(5) + 1;//вынести в константу
-    }
-
-    public static int getRandomAttackPower() {
-        return new Random().nextInt(2) + 1;//вынести в константу
-    }
+//    public static int getRandomHealth() {
+//        return new Random().nextInt(4) + 3;//вынести в константу
+//    }
+//
+//    public static int getRandomSpeed() {
+//        return new Random().nextInt(5) + 1;//вынести в константу
+//    }
+//
+//    public static int getRandomAttackPower() {
+//        return new Random().nextInt(2) + 1;//вынести в константу
+//    }
 
     public int getHealth() {
         return health;

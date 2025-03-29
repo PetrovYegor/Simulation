@@ -6,36 +6,38 @@ import java.util.*;
 
 public class PathFinder {
     private final GameBoard board;
-    public PathFinder(GameBoard board){
+
+    public PathFinder(GameBoard board) {
         this.board = board;
     }
 
-    public List<Coordinates> bfs(GameBoard board, Creature creature){
-        List<Coordinates> coordinatesForMoving = Collections.emptyList();
-
-        Queue<Coordinates> queue = new LinkedList<>();
-        boolean[][] visited = new boolean[board.getHeight()][board.getWidth()];
+    public List<Coordinates> searchFood(Creature creature) {
+        List<Coordinates> result = Collections.emptyList();
+        boolean[][] visitedCoordinates = new boolean[board.getHeight()][board.getWidth()];
         Map<Coordinates, Coordinates> distanceToTarget = new HashMap<>();
+        Queue<Coordinates> coordinatesForSearchingFood = new LinkedList<>();
         Coordinates start = creature.getCoordinates();
-        queue.add(start);
-        while (!queue.isEmpty()) {
-            Coordinates current = queue.poll();
-            if (visited[current.getX()][current.getY()] == true) {//если была посещена ранее, пропускаем итерацию
+        coordinatesForSearchingFood.add(start);
+
+        while (!coordinatesForSearchingFood.isEmpty()) {
+            Coordinates current = coordinatesForSearchingFood.poll();
+            boolean alreadyVisited = visitedCoordinates[current.getX()][current.getY()];
+            if (alreadyVisited) {
                 continue;
             }
-            visited[current.getX()][current.getY()] = true;//помечаем посещённой
+            visitedCoordinates[current.getX()][current.getY()] = true;//помечаем посещённой
             if (!current.equals(start)) {//если это не стартовая координата, откуда будет строиться путь
-                if (board.isFood(current, creature)) {
-                    coordinatesForMoving = reconstructPath(distanceToTarget, current);
-                    break;
-                }
-                if (!board.isCellEmpty(current)) {//если текущая координата не пустая - пропускаем её
+//                if (board.isFood(current, creature)) {
+//                    coordinatesForMoving = reconstructPath(distanceToTarget, current);
+//                    break;
+//                }
+                if (!board.isCoordinatesEmpty(current)) {//если текущая координата не пустая - пропускаем её
                     continue;
                 }
             }
-            addPredecessors(current, visited, queue, distanceToTarget, board);
+            addPredecessors(current, visitedCoordinates, coordinatesForSearchingFood, distanceToTarget, board);
         }
-        return coordinatesForMoving;
+        return result;
 
     }
 
@@ -43,7 +45,7 @@ public class PathFinder {
         Coordinates[] directions = this.getDirections();
         for (Coordinates coordinates : directions) {
             Coordinates newCoordinates = new Coordinates(current.getX() + coordinates.getX(), current.getY() + coordinates.getY());
-            if (GameBoard.isCoordinatesValid(newCoordinates, board.getHeight(), board.getWidth())) {//если не выходим за поле
+            if (board.isCoordinatesValid(newCoordinates)) {//если не выходим за поле
                 if (!visited[newCoordinates.getX()][newCoordinates.getY()] && !queue.contains(newCoordinates)) {
                     queue.add(newCoordinates);
                     distanceToTarget.put(newCoordinates, current);

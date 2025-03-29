@@ -19,7 +19,7 @@ public class BoardConsoleRenderer {
             String line = "";
             for (int j = 0; j < board.getWidth(); j++) {
                 Coordinates coordinates = new Coordinates(i, j);
-                if (board.isCellEmpty(coordinates)) {
+                if (board.isCoordinatesEmpty(coordinates)) {
                     line += getSpriteForEmptyCell();
                 } else {
                     Entity entity = board.getEntity(coordinates);
@@ -40,13 +40,15 @@ public class BoardConsoleRenderer {
             resultSptite = Sprite.HERBIVORE;
         } else if (entity instanceof Grass) {
             resultSptite = Sprite.GRASS;
-        } else if (entity instanceof Rock) {
-            resultSptite = Sprite.ROCK;
-        } else if (entity instanceof Predator) {
-            resultSptite = Sprite.PREDATOR;
-        } else if (entity instanceof Tree) {
-            resultSptite = Sprite.TREE;
         }
+//        else if (entity instanceof Rock) {
+//            resultSptite = Sprite.ROCK;
+//        }
+//        else if (entity instanceof Predator) {
+//            resultSptite = Sprite.PREDATOR;
+//        } else if (entity instanceof Tree) {
+//            resultSptite = Sprite.TREE;
+//        }
         return resultSptite;
     }
 }

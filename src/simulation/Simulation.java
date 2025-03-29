@@ -1,53 +1,50 @@
 package simulation;
 
 import simulation.actions.Action;
-import simulation.actions.setup_actions.*;
-import simulation.actions.turn_actions.AddDeerAction;
-import simulation.actions.turn_actions.AddGrassAction;
-import simulation.actions.turn_actions.MakeMoveAction;
-import simulation.models.Creature;
+import simulation.actions.setup_actions.SetupGrassAction;
+import simulation.actions.setup_actions.SetupHerbivoreAction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
     private final GameBoard board;
-    private int moveCounter = 0;
+    //private int moveCounter = 0;
     private final BoardConsoleRenderer renderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
 
     public Simulation(GameBoard board) {
         this.board = board;
-        this.renderer = new BoardConsoleRenderer(board);
+        renderer = new BoardConsoleRenderer(board);
         initActions = getInitActions();
-        this.turnActions = getTurnActions();
+        turnActions = getTurnActions();
     }
 
     private List<Action> getInitActions() {
         List<Action> result = new ArrayList<>();
         result.add(new SetupGrassAction(board));
-        result.add(new SetupRockAction(board));
-        result.add(new SetupWolfAction(board));
-        result.add(new SetupTreeAction(board));
-        result.add(new SetupDeerAction(board));
+        //result.add(new SetupRockAction(board));
+        //result.add(new SetupWolfAction(board));
+        //result.add(new SetupTreeAction(board));
+        result.add(new SetupHerbivoreAction(board));
         return result;
     }
 
     public List<Action> getTurnActions() {
         List<Action> result = new ArrayList<>();
-        result.add(new AddDeerAction(board));
-        result.add(new AddGrassAction(board));
-        result.add(new MakeMoveAction(board));
+//        result.add(new AddDeerAction(board));
+//        result.add(new AddGrassAction(board));
+//        result.add(new MakeMoveAction(board));
         return result;
     }
 
     private void nextTurn() {
         renderer.render();
-        for (Action action : turnActions){
-            action.execute();
-        }
-        moveCounter++;
+//        for (Action action : turnActions){
+//            action.execute();
+//        }
+//        moveCounter++;
     }
 
     void startSimulation() throws InterruptedException {
@@ -65,6 +62,25 @@ public class Simulation {
     private void pauseSimulation() {
 
     }
+
+//    public boolean isGrassEnough() {
+//        return getGrass().size() > EntityLimitSettings.DEER_LIMIT + 1 ? true : false;
+//    }
+//
+//    public boolean isHerbivoreEnough() {
+//        return getHerbivores().size() >= EntityLimitSettings.PREDATOR_LIMIT ? true : false;
+//    }
+
+    //    public boolean isFood(Coordinates targetCoordinates, Entity creature) {
+//        Entity targetEntity = entities.get(targetCoordinates);
+//        if (isGrass(targetEntity) && isHerbivore(creature)) {
+//            return true;
+//        }
+//        if (isHerbivore(targetEntity) && isPredator(creature)) {
+//            return true;
+//        }
+//        return false;
+//    }
 }
 /*
 Главный класс приложения, включает в себя:
