@@ -20,6 +20,6 @@ public class SetupHerbivoreAction implements Action {
 //            int y = randomFreeCoordinates.getY();
 //            board.setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), Creature.getRandomSpeed(), Creature.getRandomHealth()));
 //        }
-        board.setEntity(new Coordinates(1, 1), new Herbivore(new Coordinates(1, 1), 2, 2));
+        board.setEntity(new Coordinates(2, 1), new Herbivore(new Coordinates(2, 1), 2, 2));
     }
 }

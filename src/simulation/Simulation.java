@@ -3,6 +3,7 @@ package simulation;
 import simulation.actions.Action;
 import simulation.actions.setup_actions.SetupGrassAction;
 import simulation.actions.setup_actions.SetupHerbivoreAction;
+import simulation.actions.turn_actions.MakeMoveAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +36,15 @@ public class Simulation {
         List<Action> result = new ArrayList<>();
 //        result.add(new AddDeerAction(board));
 //        result.add(new AddGrassAction(board));
-//        result.add(new MakeMoveAction(board));
+        result.add(new MakeMoveAction(board));
         return result;
     }
 
     private void nextTurn() {
         renderer.render();
-//        for (Action action : turnActions){
-//            action.execute();
-//        }
+        for (Action action : turnActions){
+            action.execute();
+        }
 //        moveCounter++;
     }
 
@@ -71,16 +72,7 @@ public class Simulation {
 //        return getHerbivores().size() >= EntityLimitSettings.PREDATOR_LIMIT ? true : false;
 //    }
 
-    //    public boolean isFood(Coordinates targetCoordinates, Entity creature) {
-//        Entity targetEntity = entities.get(targetCoordinates);
-//        if (isGrass(targetEntity) && isHerbivore(creature)) {
-//            return true;
-//        }
-//        if (isHerbivore(targetEntity) && isPredator(creature)) {
-//            return true;
-//        }
-//        return false;
-//    }
+
 }
 /*
 Главный класс приложения, включает в себя:

@@ -10,19 +10,24 @@ import java.util.List;
 
 public class MakeMoveAction implements Action {
     private final GameBoard board;
-    private final PathFinder pathFinder;
 
     public MakeMoveAction(GameBoard board) {
         this.board = board;
-        pathFinder  = new PathFinder(board);
     }
 
     @Override
     public void execute() {
         List<Creature> creatures = board.getCertainEntities(Creature.class);
         for (Creature creature : creatures) {
-            List<Coordinates> coordinatesForMoving = pathFinder.searchFood(creature);
-            creature.makeMove(coordinatesForMoving, board);
+            PathFinder pathFinder = new PathFinder(board);
+            List<Coordinates> coordinatesForMoving = pathFinder.searchFood(creature.getCoordinates());
+            if (isFoodFound(coordinatesForMoving)){
+                creature.makeMove(coordinatesForMoving, board);
+            }
         }
+    }
+
+    private boolean isFoodFound(List<Coordinates> c){
+        return !c.isEmpty();
     }
 }

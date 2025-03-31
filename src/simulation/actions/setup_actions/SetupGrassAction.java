@@ -21,6 +21,6 @@ public class SetupGrassAction implements Action {
 //            int y = randomFreeCoordinates.getY();
 //            board.setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
 //        }
-        board.setEntity(new Coordinates(1, 3), new Grass(new Coordinates(1, 3)));
+        board.setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
     }
 }

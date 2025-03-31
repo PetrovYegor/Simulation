@@ -1,6 +1,9 @@
 package simulation;
 
+import simulation.models.Creature;
 import simulation.models.Entity;
+import simulation.models.Grass;
+import simulation.models.Herbivore;
 
 import java.util.*;
 
@@ -83,4 +86,27 @@ public class GameBoard {
         boolean yValid = targetY >= 0 && targetY < getWidth();
         return xValid && yValid;
     }
+
+    public boolean isFood(Coordinates targetCoordinates, Creature creature) {
+        Entity targetEntity = entities.get(targetCoordinates);
+        if (isGrass(targetEntity) && isHerbivore(creature)) {
+            return true;
+        }
+//        if (isHerbivore(targetEntity) && isPredator(creature)) {
+//            return true;
+//        }
+        return false;
+    }
+
+    public boolean isGrass(Entity entity) {
+        return entity instanceof Grass;
+    }
+
+    public boolean isHerbivore(Entity entity) {
+        return entity instanceof Herbivore;
+    }
+
+//    public boolean isPredator(Entity entity) {
+//        return entity instanceof Predator;
+//    }
 }

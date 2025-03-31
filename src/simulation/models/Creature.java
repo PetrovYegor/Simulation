@@ -3,15 +3,12 @@ package simulation.models;
 import simulation.Coordinates;
 import simulation.GameBoard;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
-//Абстрактный класс, наследуется от Entity. Существо, имеет скорость (сколько клеток может пройти за 1 ход)
-// , количество HP. Имеет метод makeMove() - сделать ход.
 public abstract class Creature extends Entity {
-    public final int speed; //количество клеток, которое существо может пройти за 1 ход
-    public int health; //здоровье существа
+    public final int speed;
+    public int health;
+    private static final int ATTACK_DISTANCE = 1;
 
     public Creature(Coordinates coordinates, int speed, int health) {
         super(coordinates);
@@ -19,7 +16,18 @@ public abstract class Creature extends Entity {
         this.health = health;
     }
 
-    public abstract void makeMove(List<Coordinates> coordinatesForMoving, GameBoard board);
+    public void makeMove(List<Coordinates> coordinatesForMoving, GameBoard board) {
+        if (canAttack(coordinatesForMoving)) {
+            Coordinates target = coordinatesForMoving.get(0);
+            attack(target, board);
+        } else {
+            moveToFood(coordinatesForMoving, board);
+        }
+    }
+
+    public boolean canAttack(List<Coordinates> c) {
+        return c.size() == ATTACK_DISTANCE;
+    }
 
     public int getSpeed() {
         return speed;
@@ -41,9 +49,12 @@ public abstract class Creature extends Entity {
         return health;
     }
 
-    public void eat(Coordinates coordinates, GameBoard board){
+    public abstract void attack(Coordinates target, GameBoard board);
+
+    public void eat(Coordinates coordinates, GameBoard board) {
         board.removeEntity(coordinates);
-    };
+    }
+
     public void setHealth(int health) {
         this.health = health;
     }
@@ -53,6 +64,18 @@ public abstract class Creature extends Entity {
     //уменьшить количество здоровья
     //возможно нужен какой-то абстрактный метод движения к цели, травоядное к траве, хищник к травоядному
 
-    public abstract void moveToFood(List<Coordinates> coordinatesForMoving, GameBoard board);
+    public void moveToFood(List<Coordinates> coordinatesForMoving, GameBoard board) {
+        int steps = 0;
+        for (Coordinates newCoordinates : coordinatesForMoving) {
+            if (steps < coordinatesForMoving.size() && steps < getSpeed()) {//пока количество сделанных шагов не превышает путь до цели и не кончились очки скорости
+                if (steps == coordinatesForMoving.size() - 1) {//если creature находимся на расстоянии одной клетки от еды
+                    return;
+                }
+                Coordinates oldCoordinates = getCoordinates();
+                board.moveEntity(oldCoordinates, newCoordinates);
+                steps++;
+            }
+        }
+    }
 }
 
