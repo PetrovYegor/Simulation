@@ -3,6 +3,7 @@ package simulation;
 import simulation.actions.Action;
 import simulation.actions.setup_actions.SetupGrassAction;
 import simulation.actions.setup_actions.SetupHerbivoreAction;
+import simulation.actions.setup_actions.SetupRockAction;
 import simulation.actions.turn_actions.MakeMoveAction;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Simulation {
     private List<Action> getInitActions() {
         List<Action> result = new ArrayList<>();
         result.add(new SetupGrassAction(board));
-        //result.add(new SetupRockAction(board));
+        result.add(new SetupRockAction(board));
         //result.add(new SetupWolfAction(board));
         //result.add(new SetupTreeAction(board));
         result.add(new SetupHerbivoreAction(board));

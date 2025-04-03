@@ -37,6 +37,7 @@ public class PathFinder {
                     result = reconstructPath(current);
                     break;
                 }
+                continue;
             }
             addPredecessors(current);
         }

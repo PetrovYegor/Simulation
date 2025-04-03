@@ -41,9 +41,9 @@ public class BoardConsoleRenderer {
         } else if (entity instanceof Grass) {
             resultSptite = Sprite.GRASS;
         }
-//        else if (entity instanceof Rock) {
-//            resultSptite = Sprite.ROCK;
-//        }
+        else if (entity instanceof Rock) {
+            resultSptite = Sprite.ROCK;
+        }
 //        else if (entity instanceof Predator) {
 //            resultSptite = Sprite.PREDATOR;
 //        } else if (entity instanceof Tree) {
