@@ -2,9 +2,9 @@ package simulation;
 
 import simulation.models.*;
 
-public class BoardConsoleRenderer {
+public class GameBoardRenderer {
     private final GameBoard board;
-    BoardConsoleRenderer(GameBoard board) {
+    GameBoardRenderer(GameBoard board) {
         this.board = board;
     }
     public void render() {

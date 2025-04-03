@@ -4,14 +4,13 @@ import simulation.Coordinates;
 import simulation.GameBoard;
 
 import java.util.List;
-import java.util.Random;
 
 public abstract class Creature extends Entity {
     public final int speed;
-    public int health;
+    private int health;
     private static final int ATTACK_DISTANCE = 1;
 
-    public Creature(Coordinates coordinates, int speed, int health) {
+    protected Creature(Coordinates coordinates, int speed, int health) {
         super(coordinates);
         this.speed = speed;
         this.health = health;
@@ -34,18 +33,6 @@ public abstract class Creature extends Entity {
         return speed;
     }
 
-    public static int getRandomHealth() {
-        return new Random().nextInt(4) + 3;//вынести в константу
-    }
-
-    public static int getRandomSpeed() {
-        return new Random().nextInt(5) + 1;//вынести в константу
-    }
-//
-//    public static int getRandomAttackPower() {
-//        return new Random().nextInt(2) + 1;//вынести в константу
-//    }
-
     public int getHealth() {
         return health;
     }
@@ -60,15 +47,10 @@ public abstract class Creature extends Entity {
         this.health = health;
     }
 
-    //получить уровень здоровья
-    //проверить не равен ли уровень здоровья 0, если да, то мёртв
-    //уменьшить количество здоровья
-    //возможно нужен какой-то абстрактный метод движения к цели, травоядное к траве, хищник к травоядному
-
     public void moveToFood(List<Coordinates> coordinatesForMoving, GameBoard board) {
         int steps = 0;
         for (Coordinates newCoordinates : coordinatesForMoving) {
-            if (steps < coordinatesForMoving.size() && steps < getSpeed()) {//пока количество пройденных клеток не превышает путь до цели и не превышает speed
+            if (steps < getSpeed()) {
                 if (steps == coordinatesForMoving.size() - 1) {//если creature находится на расстоянии одной клетки от еды
                     return;
                 }

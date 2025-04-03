@@ -12,13 +12,13 @@ import java.util.List;
 public class Simulation {
     private final GameBoard board;
     //private int moveCounter = 0;
-    private final BoardConsoleRenderer renderer;
+    private final GameBoardRenderer renderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
 
     public Simulation(GameBoard board) {
         this.board = board;
-        renderer = new BoardConsoleRenderer(board);
+        renderer = new GameBoardRenderer(board);
         initActions = getInitActions();
         turnActions = getTurnActions();
     }
