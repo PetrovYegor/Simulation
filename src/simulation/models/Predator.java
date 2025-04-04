@@ -14,17 +14,18 @@ public class Predator extends Creature {
     }
 
     @Override
-    public void moveToFood(List<Coordinates> coordinatesForMoving, GameBoard board) {
+    public void move(List<Coordinates> coordinatesForMoving, GameBoard board) {
         int steps = 0;
+        Coordinates victimCoordinates = coordinatesForMoving.get(coordinatesForMoving.size() - 1);
         for (Coordinates currentCoordinates : coordinatesForMoving) {
             if (steps < getSpeed()) {
-                if (steps == coordinatesForMoving.size() - 1) {//если creature находится на расстоянии одной клетки от еды
-                    attack(currentCoordinates, board);
-                    return;
-                }
                 Coordinates oldCoordinates = getCoordinates();
                 board.moveEntity(oldCoordinates, currentCoordinates);
                 steps++;
+                if (steps == coordinatesForMoving.size() - 1) {//если creature находится на расстоянии одной клетки от еды
+                    attack(victimCoordinates, board);
+                    return;
+                }
             }
         }
     }

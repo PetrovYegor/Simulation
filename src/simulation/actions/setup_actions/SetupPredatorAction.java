@@ -16,12 +16,11 @@ public class SetupPredatorAction implements Action {
 
     @Override
     public void execute() {
-//        for (int i = 0; i < EntityLimitSettings.PREDATOR_LIMIT; i++) {
-//            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
-//            int x = randomFreeCoordinates.x();
-//            int y = randomFreeCoordinates.y();
-//            board.setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), CreatureUtils.getRandomSpeed(), CreatureUtils.getRandomHealth(), CreatureUtils.getRandomAttackPower()));
-//        }
-        board.setEntity(new Coordinates(5, 1), new Predator(new Coordinates(5, 1), 1, 2, 0));
+        for (int i = 0; i < EntityLimitSettings.PREDATOR_LIMIT; i++) {
+            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
+            int x = randomFreeCoordinates.x();
+            int y = randomFreeCoordinates.y();
+            board.setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), CreatureUtils.getRandomSpeed(), CreatureUtils.getRandomHealth(), CreatureUtils.getRandomAttackPower()));
+        }
     }
 }

@@ -21,7 +21,7 @@ public abstract class Creature extends Entity {
             Coordinates target = coordinatesForMoving.get(0);
             attack(target, board);
         } else {
-            moveToFood(coordinatesForMoving, board);
+            move(coordinatesForMoving, board);
         }
     }
 
@@ -51,7 +51,7 @@ public abstract class Creature extends Entity {
         this.health = health;
     }
 
-    public void moveToFood(List<Coordinates> coordinatesForMoving, GameBoard board) {
+    public void move(List<Coordinates> coordinatesForMoving, GameBoard board) {
         int steps = 0;
         for (Coordinates currentCoordinates : coordinatesForMoving) {
             if (steps < getSpeed()) {

@@ -15,12 +15,11 @@ public class SetupGrassAction implements Action {
 
     @Override
     public void execute() {
-//        for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
-//            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
-//            int x = randomFreeCoordinates.getX();
-//            int y = randomFreeCoordinates.getY();
-//            board.setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//        }
-        board.setEntity(new Coordinates(0, 1), new Grass(new Coordinates(0, 1)));
+        for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
+            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
+            int x = randomFreeCoordinates.x();
+            int y = randomFreeCoordinates.y();
+            board.setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+        }
     }
 }

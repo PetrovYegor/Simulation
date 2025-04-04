@@ -15,12 +15,11 @@ public class SetupRockAction implements Action {
 
     @Override
     public void execute() {
-//        for (int i = 0; i < EntityLimitSettings.ROCK_LIMIT; i++) {
-//            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
-//            int x = randomFreeCoordinates.getX();
-//            int y = randomFreeCoordinates.getY();
-//            board.setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-//        }
-        board.setEntity(new Coordinates(1, 1), new Rock(new Coordinates(1, 1)));
+        for (int i = 0; i < EntityLimitSettings.ROCK_LIMIT; i++) {
+            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
+            int x = randomFreeCoordinates.x();
+            int y = randomFreeCoordinates.y();
+            board.setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+        }
     }
 }

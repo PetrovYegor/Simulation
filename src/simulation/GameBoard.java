@@ -1,9 +1,6 @@
 package simulation;
 
-import simulation.models.Creature;
-import simulation.models.Entity;
-import simulation.models.Grass;
-import simulation.models.Herbivore;
+import simulation.models.*;
 
 import java.util.*;
 
@@ -92,9 +89,9 @@ public class GameBoard {
         if (isGrass(targetEntity) && isHerbivore(creature)) {
             return true;
         }
-//        if (isHerbivore(targetEntity) && isPredator(creature)) {
-//            return true;
-//        }
+        if (isHerbivore(targetEntity) && isPredator(creature)) {
+            return true;
+        }
         return false;
     }
 
@@ -106,7 +103,15 @@ public class GameBoard {
         return entity instanceof Herbivore;
     }
 
-//    public boolean isPredator(Entity entity) {
-//        return entity instanceof Predator;
-//    }
+    public boolean isPredator(Entity entity) {
+        return entity instanceof Predator;
+    }
+
+    public boolean isGrassEnough() {
+        return getCertainEntities(Grass.class).size() > EntityLimitSettings.HERBIVORE_LIMIT + 1 ? true : false;
+    }
+
+    public boolean isHerbivoreEnough() {
+        return getCertainEntities(Herbivore.class).size() > EntityLimitSettings.PREDATOR_LIMIT ? true : false;
+    }
 }

@@ -46,10 +46,9 @@ public class GameBoardRenderer {
             resultSptite = Sprite.ROCK;
         } else if (entity instanceof Predator) {
             resultSptite = Sprite.PREDATOR;
-        }
-        //else if (entity instanceof Tree) {
-//            resultSptite = Sprite.TREE;
-//        }
+        } else if (entity instanceof Tree) {
+            resultSptite = Sprite.TREE;
+        }///////////////////////////////////// кидать исключение, если не нашлось совпадения
             return resultSptite;
         }
     }
