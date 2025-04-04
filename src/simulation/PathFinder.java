@@ -47,8 +47,8 @@ public class PathFinder {
     private void addPredecessors(Coordinates current) {
         Coordinates[] directions = getShiftDirections();
         for (Coordinates coordinates : directions) {
-            int newX = current.getX() + coordinates.getX();
-            int newY = current.getY() + coordinates.getY();
+            int newX = current.x() + coordinates.x();
+            int newY = current.y() + coordinates.y();
             Coordinates newCoordinates = new Coordinates(newX, newY);
             if (board.isCoordinatesValid(newCoordinates)) {
                 if (!isVisited(newCoordinates) && !bfsQueue.contains(newCoordinates)) {
@@ -80,11 +80,11 @@ public class PathFinder {
     }
 
     private boolean isVisited(Coordinates target) {
-        return visited[target.getX()][target.getY()];
+        return visited[target.x()][target.y()];
     }
 
     private void markAsVisited(Coordinates c) {
-        visited[c.getX()][c.getY()] = true;
+        visited[c.x()][c.y()] = true;
     }
 
     private boolean isBeginningOfSearch(Coordinates current, Coordinates start) {

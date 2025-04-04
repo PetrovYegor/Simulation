@@ -4,9 +4,11 @@ import simulation.models.*;
 
 public class GameBoardRenderer {
     private final GameBoard board;
+
     GameBoardRenderer(GameBoard board) {
         this.board = board;
     }
+
     public void render() {
         System.out.println();
         System.out.println();
@@ -40,15 +42,14 @@ public class GameBoardRenderer {
             resultSptite = Sprite.HERBIVORE;
         } else if (entity instanceof Grass) {
             resultSptite = Sprite.GRASS;
-        }
-        else if (entity instanceof Rock) {
+        } else if (entity instanceof Rock) {
             resultSptite = Sprite.ROCK;
+        } else if (entity instanceof Predator) {
+            resultSptite = Sprite.PREDATOR;
         }
-//        else if (entity instanceof Predator) {
-//            resultSptite = Sprite.PREDATOR;
-//        } else if (entity instanceof Tree) {
+        //else if (entity instanceof Tree) {
 //            resultSptite = Sprite.TREE;
 //        }
-        return resultSptite;
+            return resultSptite;
+        }
     }
-}

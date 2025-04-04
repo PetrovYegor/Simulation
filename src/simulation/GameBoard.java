@@ -80,8 +80,8 @@ public class GameBoard {
     }
 
     public boolean isCoordinatesValid(Coordinates coordinates) {//это лучше в класс координат перенести
-        int targetX = coordinates.getX();
-        int targetY = coordinates.getY();
+        int targetX = coordinates.x();
+        int targetY = coordinates.y();
         boolean xValid = targetX >= 0 && targetX < getHeight();
         boolean yValid = targetY >= 0 && targetY < getWidth();
         return xValid && yValid;

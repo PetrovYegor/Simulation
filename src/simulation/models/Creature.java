@@ -37,6 +37,10 @@ public abstract class Creature extends Entity {
         return health;
     }
 
+    public boolean isDead() {
+        return health <= 0;
+    }
+
     public abstract void attack(Coordinates target, GameBoard board);
 
     public void eat(Coordinates coordinates, GameBoard board) {
@@ -49,13 +53,13 @@ public abstract class Creature extends Entity {
 
     public void moveToFood(List<Coordinates> coordinatesForMoving, GameBoard board) {
         int steps = 0;
-        for (Coordinates newCoordinates : coordinatesForMoving) {
+        for (Coordinates currentCoordinates : coordinatesForMoving) {
             if (steps < getSpeed()) {
                 if (steps == coordinatesForMoving.size() - 1) {//если creature находится на расстоянии одной клетки от еды
                     return;
                 }
                 Coordinates oldCoordinates = getCoordinates();
-                board.moveEntity(oldCoordinates, newCoordinates);
+                board.moveEntity(oldCoordinates, currentCoordinates);
                 steps++;
             }
         }

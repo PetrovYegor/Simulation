@@ -27,7 +27,7 @@ public class MakeMoveAction implements Action {
         }
     }
 
-    private boolean isFoodFound(List<Coordinates> c){
-        return !c.isEmpty();
+    private boolean isFoodFound(List<Coordinates> wayToFood){
+        return !wayToFood.isEmpty();
     }
 }
