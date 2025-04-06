@@ -5,8 +5,9 @@ import simulation.GameBoard;
 import simulation.PathFinder;
 import simulation.actions.Action;
 import simulation.models.Creature;
+import simulation.models.Entity;
 
-import java.util.List;
+import java.util.*;
 
 public class MakeMoveAction implements Action {
     private final GameBoard board;
@@ -17,18 +18,12 @@ public class MakeMoveAction implements Action {
 
     @Override
     public void execute() {
-        List<Creature> creatures = board.getCertainEntities(Creature.class);
-        for (Creature creature : creatures) {
-            PathFinder pathFinder = new PathFinder(board);
-            System.out.println("Current creature is " + creature + " coordinates " + creature.getCoordinates());
-            List<Coordinates> coordinatesForMoving = pathFinder.searchFood(creature.getCoordinates());
-            if (isFoodFound(coordinatesForMoving)){
-                creature.makeMove(coordinatesForMoving, board);
+        Set<Coordinates> takenCoordinates = new HashSet<>(board.getTakenCoordinates());
+        for (Coordinates c : takenCoordinates){
+            if (!board.isCoordinatesEmpty(c)){
+                Creature creature = (Creature) board.getEntity(c);
+                creature.makeMove(board);
             }
         }
-    }
-
-    private boolean isFoodFound(List<Coordinates> wayToFood){
-        return !wayToFood.isEmpty();
     }
 }

@@ -8,7 +8,7 @@ import java.util.*;
 public class GameBoard {
     private final int height;
     private final int width;
-    private final Map<Coordinates, Entity> entities;
+    private final Map<Coordinates, Entity> entities = new HashMap<>();
 
     public int getHeight() {
         return height;
@@ -21,7 +21,6 @@ public class GameBoard {
     public GameBoard(int height, int width) {
         this.height = height;
         this.width = width;
-        this.entities = new HashMap<>();
     }
 
     public void setEntity(Coordinates coordinates, Entity entity) {
@@ -81,6 +80,10 @@ public class GameBoard {
             }
         }
         return result;
+    }
+
+    public Set<Coordinates> getTakenCoordinates(){
+        return entities.keySet();
     }
 
     public boolean isCoordinatesEmpty(Coordinates coordinates) {
