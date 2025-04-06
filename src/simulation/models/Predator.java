@@ -31,6 +31,7 @@ public class Predator extends Creature {
     }
 
     public void attack(Coordinates target, GameBoard board) {
+        board.validateCoordinates(target, "attack");
         Creature victim = (Creature) board.getEntity(target);
         int currentVictimHealth = victim.getHealth();
         victim.setHealth(currentVictimHealth - attackPower);

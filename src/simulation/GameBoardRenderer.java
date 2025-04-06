@@ -2,6 +2,8 @@ package simulation;
 
 import simulation.models.*;
 
+import java.util.NoSuchElementException;
+
 public class GameBoardRenderer {
     private final GameBoard board;
 
@@ -33,11 +35,15 @@ public class GameBoardRenderer {
     }
 
     private String getSpriteForEmptyCell() {
-        return Sprite.GROUND;
+        String resultSprite = Sprite.GROUND;
+        if (resultSprite == null) {
+            throw new NoSuchElementException("Sprite for empty cell is null");
+        }
+        return resultSprite;
     }
 
-    private String getEntitySprite(Entity entity) {//поменять аргумент
-        String resultSptite = "";
+    private String getEntitySprite(Entity entity) {
+        String resultSptite = null;
         if (entity instanceof Herbivore) {
             resultSptite = Sprite.HERBIVORE;
         } else if (entity instanceof Grass) {
@@ -48,7 +54,10 @@ public class GameBoardRenderer {
             resultSptite = Sprite.PREDATOR;
         } else if (entity instanceof Tree) {
             resultSptite = Sprite.TREE;
-        }///////////////////////////////////// кидать исключение, если не нашлось совпадения
-            return resultSptite;
         }
+        if (resultSptite == null){
+            throw new IllegalArgumentException("There is no sprite for current entity");
+        }
+        return resultSptite;
     }
+}

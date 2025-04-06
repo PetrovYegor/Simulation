@@ -25,18 +25,18 @@ public class Simulation {
 
     private List<Action> getInitActions() {
         List<Action> result = new ArrayList<>();
-        result.add(new SetupGrassAction(board));
-        result.add(new SetupRockAction(board));
         result.add(new SetupPredatorAction(board));
-        result.add(new SetupTreeAction(board));
         result.add(new SetupHerbivoreAction(board));
+        //result.add(new SetupGrassAction(board));
+        //result.add(new SetupRockAction(board));
+        //result.add(new SetupTreeAction(board));
         return result;
     }
 
     public List<Action> getTurnActions() {
         List<Action> result = new ArrayList<>();
         result.add(new AddHerbivoreAction(board));
-        result.add(new AddGrassAction(board));
+        //result.add(new AddGrassAction(board));
         result.add(new MakeMoveAction(board));
         return result;
     }

@@ -20,6 +20,7 @@ public class MakeMoveAction implements Action {
         List<Creature> creatures = board.getCertainEntities(Creature.class);
         for (Creature creature : creatures) {
             PathFinder pathFinder = new PathFinder(board);
+            System.out.println("Current creature is " + creature + " coordinates " + creature.getCoordinates());
             List<Coordinates> coordinatesForMoving = pathFinder.searchFood(creature.getCoordinates());
             if (isFoodFound(coordinatesForMoving)){
                 creature.makeMove(coordinatesForMoving, board);

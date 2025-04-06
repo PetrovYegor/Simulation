@@ -10,7 +10,7 @@ public class Herbivore extends Creature {
     }
 
     public void attack(Coordinates target, GameBoard board) {
+        board.validateCoordinates(target, "attack");
         eat(target, board);
     }
-
 }

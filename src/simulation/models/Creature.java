@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class Creature extends Entity {
     public final int speed;
-    private int health;
+    public int health;//сделать приватным после дебага
     private static final int ATTACK_DISTANCE = 1;
 
     protected Creature(Coordinates coordinates, int speed, int health) {
@@ -44,6 +44,7 @@ public abstract class Creature extends Entity {
     public abstract void attack(Coordinates target, GameBoard board);
 
     public void eat(Coordinates coordinates, GameBoard board) {
+        board.validateCoordinates(coordinates, "eat");
         board.removeEntity(coordinates);
     }
 

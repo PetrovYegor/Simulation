@@ -1,5 +1,6 @@
 package simulation;
 
+import simulation.exceptions.InvalidCoordinateException;
 import simulation.models.*;
 
 import java.util.*;
@@ -24,19 +25,28 @@ public class GameBoard {
     }
 
     public void setEntity(Coordinates coordinates, Entity entity) {
+        validateCoordinates(coordinates, "setEntity");
         entity.setCoordinates(coordinates);
         entities.put(coordinates, entity);
     }
 
     public Entity getEntity(Coordinates coordinates) {
-        return entities.get(coordinates);
+        validateCoordinates(coordinates, "getEntity");
+        Entity result = entities.get(coordinates);
+        if (result == null) {
+            throw new NoSuchElementException("There is no entity on game board at " + coordinates);
+        }
+        return result;
     }
 
     public void removeEntity(Coordinates coordinates) {
+        validateCoordinates(coordinates, "removeEntity");
         entities.remove(coordinates);
     }
 
     public void moveEntity(Coordinates from, Coordinates to) {
+        validateCoordinates(from, "removeEntity (from)");
+        validateCoordinates(to, "removeEntity (to)");
         Entity entity = getEntity(from);
         removeEntity(from);
         setEntity(to, entity);
@@ -53,7 +63,8 @@ public class GameBoard {
     }
 
     public Coordinates getRandomFreeCoordinates() {
-        Set<Coordinates> allCoordinates = getAllGameBoardCoordinates();
+        List<Coordinates> allCoordinates = getAllGameBoardCoordinates();
+        Collections.shuffle(allCoordinates);
         for (Coordinates c : allCoordinates) {
             if (isCoordinatesEmpty(c)) {
                 return c;
@@ -62,8 +73,8 @@ public class GameBoard {
         throw new IllegalStateException("The game board cannot be without free cells!");
     }
 
-    private Set<Coordinates> getAllGameBoardCoordinates() {
-        Set<Coordinates> result = new HashSet<>();
+    private List<Coordinates> getAllGameBoardCoordinates() {
+        List<Coordinates> result = new ArrayList<>();
         for (int i = 0; i < getHeight(); i++) {
             for (int j = 0; j < getWidth(); j++) {
                 result.add(new Coordinates(i, j));
@@ -72,8 +83,9 @@ public class GameBoard {
         return result;
     }
 
-    public boolean isCoordinatesEmpty(Coordinates c) {
-        return !entities.containsKey(c);
+    public boolean isCoordinatesEmpty(Coordinates coordinates) {
+        validateCoordinates(coordinates, "isCoordinatesEmpty");
+        return !entities.containsKey(coordinates);
     }
 
     public boolean isCoordinatesValid(Coordinates coordinates) {//это лучше в класс координат перенести
@@ -84,7 +96,23 @@ public class GameBoard {
         return xValid && yValid;
     }
 
+    public void validateCoordinates(Coordinates c, String methodName) {
+        if (!isCoordinatesValid(c)) {
+            throw new InvalidCoordinateException(
+                    String.format(
+                            "[%s] Invalid coordinates (%d, %d). Field size: %dx%d",
+                            methodName,
+                            c.x(),
+                            c.y(),
+                            width,
+                            height
+                    )
+            );
+        }
+    }
+
     public boolean isFood(Coordinates targetCoordinates, Creature creature) {
+        validateCoordinates(targetCoordinates, "isCoordinatesEmpty");
         Entity targetEntity = entities.get(targetCoordinates);
         if (isGrass(targetEntity) && isHerbivore(creature)) {
             return true;

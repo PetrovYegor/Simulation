@@ -18,6 +18,7 @@ public class PathFinder {
     }
 
     public List<Coordinates> searchFood(Coordinates start) {
+        board.validateCoordinates(start, "searchFood");
         List<Coordinates> result = Collections.emptyList();
         Creature currentCreature = (Creature) board.getEntity(start);
         bfsQueue.add(start);
@@ -45,6 +46,7 @@ public class PathFinder {
     }
 
     private void addPredecessors(Coordinates current) {
+        board.validateCoordinates(current, "addPredecessors");
         Coordinates[] directions = getShiftDirections();
         for (Coordinates coordinates : directions) {
             int newX = current.x() + coordinates.x();
@@ -69,6 +71,7 @@ public class PathFinder {
     }
 
     private LinkedList<Coordinates> reconstructPath(Coordinates target) {
+        board.validateCoordinates(target, "reconstructPath");
         LinkedList<Coordinates> wayToTarget = new LinkedList<>();
         Coordinates current = target;
         do {
@@ -80,14 +83,18 @@ public class PathFinder {
     }
 
     private boolean isVisited(Coordinates target) {
+        board.validateCoordinates(target, "isVisited");
         return visited[target.x()][target.y()];
     }
 
     private void markAsVisited(Coordinates c) {
+        board.validateCoordinates(c, "markAsVisited");
         visited[c.x()][c.y()] = true;
     }
 
     private boolean isBeginningOfSearch(Coordinates current, Coordinates start) {
+        board.validateCoordinates(current, "isBeginningOfSearch (current)");
+        board.validateCoordinates(start, "isBeginningOfSearch (start)");
         return current.equals(start);
     }
 
