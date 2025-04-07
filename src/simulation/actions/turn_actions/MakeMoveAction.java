@@ -1,13 +1,11 @@
 package simulation.actions.turn_actions;
 
-import simulation.Coordinates;
 import simulation.GameBoard;
-import simulation.PathFinder;
 import simulation.actions.Action;
 import simulation.models.Creature;
-import simulation.models.Entity;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MakeMoveAction implements Action {
     private final GameBoard board;
@@ -18,10 +16,9 @@ public class MakeMoveAction implements Action {
 
     @Override
     public void execute() {
-        Set<Coordinates> takenCoordinates = new HashSet<>(board.getTakenCoordinates());
-        for (Coordinates c : takenCoordinates){
-            if (!board.isCoordinatesEmpty(c)){
-                Creature creature = (Creature) board.getEntity(c);
+        Set<Creature> livingCreatures = new HashSet<>(board.getCertainEntities(Creature.class));
+        for (Creature creature : livingCreatures) {
+            if (board.isExists(creature)) {
                 creature.makeMove(board);
             }
         }

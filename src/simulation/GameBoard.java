@@ -25,7 +25,7 @@ public class GameBoard {
 
     public void setEntity(Coordinates coordinates, Entity entity) {//Если передаётся ентити, то его тоже проверять на null
         validateCoordinates(coordinates, "setEntity");
-        if (entity instanceof Creature){
+        if (entity instanceof Creature) {
             Creature creature = (Creature) entity;
             creature.setCoordinates(coordinates);
         }
@@ -85,10 +85,6 @@ public class GameBoard {
         return result;
     }
 
-    public Set<Coordinates> getTakenCoordinates(){
-        return entities.keySet();
-    }
-
     public boolean isCoordinatesEmpty(Coordinates coordinates) {
         validateCoordinates(coordinates, "isCoordinatesEmpty");
         return !entities.containsKey(coordinates);
@@ -119,6 +115,9 @@ public class GameBoard {
 
     public boolean isFood(Coordinates targetCoordinates, Creature creature) {
         validateCoordinates(targetCoordinates, "isCoordinatesEmpty");
+        if (!isExists(creature)){
+            throw new IllegalArgumentException("The creature is null. Creature can not be null");
+        }
         Entity targetEntity = entities.get(targetCoordinates);
         if (targetEntity instanceof Grass && creature instanceof Herbivore) {
             return true;
@@ -131,10 +130,14 @@ public class GameBoard {
 
 
     public boolean isGrassEnough() {
-        return getCertainEntities(Grass.class).size() > EntityLimitSettings.HERBIVORE_LIMIT + 1 ? true : false;
+        return getCertainEntities(Grass.class).size() > EntityLimitSettings.HERBIVORE_LIMIT ? true : false;
     }
 
     public boolean isHerbivoreEnough() {
         return getCertainEntities(Herbivore.class).size() > EntityLimitSettings.PREDATOR_LIMIT ? true : false;
+    }
+
+    public boolean isExists(Creature creature) {
+        return entities.containsValue(creature);
     }
 }

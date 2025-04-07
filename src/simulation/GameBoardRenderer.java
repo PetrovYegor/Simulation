@@ -13,11 +13,6 @@ public class GameBoardRenderer {
 
     public void render() {
         System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
 
         for (int i = 0; i < board.getHeight(); i++) {
             String line = "";
@@ -55,8 +50,8 @@ public class GameBoardRenderer {
         } else if (entity instanceof Tree) {
             resultSptite = Sprite.TREE;
         }
-        if (resultSptite == null){
-            throw new IllegalArgumentException("There is no sprite for current entity");
+        if (resultSptite == null) {
+            throw new IllegalArgumentException("The entity is null or there is no sprite for current entity");
         }
         return resultSptite;
     }

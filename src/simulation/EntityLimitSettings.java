@@ -1,6 +1,7 @@
 package simulation;
 
-public class EntityLimitSettings {
+public final class EntityLimitSettings {
+    private EntityLimitSettings(){}
     public static final int HERBIVORE_LIMIT = 3;
     public static final int GRASS_LIMIT = 5;
     public static final int ROCK_LIMIT = 3;

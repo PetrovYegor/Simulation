@@ -8,9 +8,8 @@ import java.util.List;
 
 public abstract class Creature extends Entity {
     private Coordinates coordinates;
-
-    public final int speed;
-    public int health;//сделать приватным после дебага
+    private final int speed;
+    private int health;
     private final int ATTACK_DISTANCE = 1;
 
     protected Creature(Coordinates coordinates, int speed, int health) {
@@ -27,18 +26,10 @@ public abstract class Creature extends Entity {
         this.coordinates = coordinates;
     }
 
-    //    public void makeMove(GameBoard board) {
-//        if (canAttack(coordinatesForMoving)) {
-//            Coordinates target = coordinatesForMoving.get(0);
-//            attack(target, board);
-//        } else {
-//            move(coordinatesForMoving, board);
-//        }
-//    }
     public void makeMove(GameBoard board) {
         PathFinder pathFinder = new PathFinder(board);
         List<Coordinates> coordinatesForMoving = pathFinder.searchFood(getCoordinates());
-        if (isFoodFound(coordinatesForMoving)){
+        if (isFoodFound(coordinatesForMoving)) {
             if (canAttack(coordinatesForMoving)) {
                 Coordinates target = coordinatesForMoving.get(0);
                 attack(target, board);
@@ -88,7 +79,8 @@ public abstract class Creature extends Entity {
             }
         }
     }
-    private boolean isFoodFound(List<Coordinates> wayToFood){
+
+    private boolean isFoodFound(List<Coordinates> wayToFood) {
         return !wayToFood.isEmpty();
     }
 }
