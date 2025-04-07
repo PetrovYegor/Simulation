@@ -6,13 +6,13 @@ import java.util.*;
 
 public class PathFinder {
     private final GameBoard board;
-    boolean[][] visited;
+    List<Coordinates> visited;
     Map<Coordinates, Coordinates> cameFrom;
     Queue<Coordinates> bfsQueue;
 
     public PathFinder(GameBoard board) {
         this.board = board;
-        visited = new boolean[board.getHeight()][board.getWidth()];
+        visited = new ArrayList<>();
         cameFrom = new HashMap<>();
         bfsQueue = new LinkedList<>();
     }
@@ -84,12 +84,12 @@ public class PathFinder {
 
     private boolean isVisited(Coordinates target) {
         board.validateCoordinates(target, "isVisited");
-        return visited[target.x()][target.y()];
+        return visited.contains(target);
     }
 
     private void markAsVisited(Coordinates c) {
         board.validateCoordinates(c, "markAsVisited");
-        visited[c.x()][c.y()] = true;
+        visited.add(c);
     }
 
     private boolean isBeginningOfSearch(Coordinates current, Coordinates start) {

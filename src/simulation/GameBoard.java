@@ -23,9 +23,12 @@ public class GameBoard {
         this.width = width;
     }
 
-    public void setEntity(Coordinates coordinates, Entity entity) {
+    public void setEntity(Coordinates coordinates, Entity entity) {//Если передаётся ентити, то его тоже проверять на null
         validateCoordinates(coordinates, "setEntity");
-        entity.setCoordinates(coordinates);
+        if (entity instanceof Creature){
+            Creature creature = (Creature) entity;
+            creature.setCoordinates(coordinates);
+        }
         entities.put(coordinates, entity);
     }
 
@@ -117,26 +120,15 @@ public class GameBoard {
     public boolean isFood(Coordinates targetCoordinates, Creature creature) {
         validateCoordinates(targetCoordinates, "isCoordinatesEmpty");
         Entity targetEntity = entities.get(targetCoordinates);
-        if (isGrass(targetEntity) && isHerbivore(creature)) {
+        if (targetEntity instanceof Grass && creature instanceof Herbivore) {
             return true;
         }
-        if (isHerbivore(targetEntity) && isPredator(creature)) {
+        if (targetEntity instanceof Herbivore && creature instanceof Predator) {
             return true;
         }
         return false;
     }
 
-    public boolean isGrass(Entity entity) {
-        return entity instanceof Grass;
-    }
-
-    public boolean isHerbivore(Entity entity) {
-        return entity instanceof Herbivore;
-    }
-
-    public boolean isPredator(Entity entity) {
-        return entity instanceof Predator;
-    }
 
     public boolean isGrassEnough() {
         return getCertainEntities(Grass.class).size() > EntityLimitSettings.HERBIVORE_LIMIT + 1 ? true : false;

@@ -7,14 +7,24 @@ import simulation.PathFinder;
 import java.util.List;
 
 public abstract class Creature extends Entity {
+    private Coordinates coordinates;
+
     public final int speed;
     public int health;//сделать приватным после дебага
     private final int ATTACK_DISTANCE = 1;
 
     protected Creature(Coordinates coordinates, int speed, int health) {
-        super(coordinates);
+        this.coordinates = coordinates;
         this.speed = speed;
         this.health = health;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     //    public void makeMove(GameBoard board) {
@@ -65,7 +75,7 @@ public abstract class Creature extends Entity {
         this.health = health;
     }
 
-    private void move(List<Coordinates> coordinatesForMoving, GameBoard board) {
+    public void move(List<Coordinates> coordinatesForMoving, GameBoard board) {
         int steps = 0;
         for (Coordinates currentCoordinates : coordinatesForMoving) {
             if (steps < getSpeed()) {

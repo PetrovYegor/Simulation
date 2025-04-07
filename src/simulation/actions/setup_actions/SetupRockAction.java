@@ -19,7 +19,7 @@ public class SetupRockAction implements Action {
             Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
             int x = randomFreeCoordinates.x();
             int y = randomFreeCoordinates.y();
-            board.setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+            board.setEntity(new Coordinates(x, y), new Rock());
         }
     }
 }
