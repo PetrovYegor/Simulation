@@ -1,12 +1,12 @@
 package simulation.actions.setup_actions;
 
 import simulation.Coordinates;
-import simulation.EntityLimitSettings;
 import simulation.GameBoard;
 import simulation.actions.Action;
+import simulation.actions.ActionUtils;
 import simulation.models.Grass;
 
-public class SetupGrassAction implements Action {
+public class SetupGrassAction extends Action {
     private final GameBoard board;
 
     public SetupGrassAction(GameBoard board) {
@@ -15,11 +15,9 @@ public class SetupGrassAction implements Action {
 
     @Override
     public void execute() {
-        for (int i = 0; i < EntityLimitSettings.GRASS_LIMIT; i++) {
+        for (int i = 0; i < ActionUtils.GRASS_LIMIT; i++) {
             Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
-            int x = randomFreeCoordinates.x();
-            int y = randomFreeCoordinates.y();
-            board.setEntity(new Coordinates(x, y), new Grass());
+            board.setEntity(randomFreeCoordinates, new Grass());
         }
     }
 }

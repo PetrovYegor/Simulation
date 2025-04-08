@@ -4,7 +4,7 @@ import simulation.GameBoard;
 import simulation.actions.Action;
 import simulation.actions.setup_actions.SetupHerbivoreAction;
 
-public class AddHerbivoreAction implements Action {
+public class AddHerbivoreAction extends Action {
     private final GameBoard board;
 
     public AddHerbivoreAction(GameBoard board) {

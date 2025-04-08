@@ -7,7 +7,7 @@ import simulation.models.Creature;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MakeMoveAction implements Action {
+public class MakeMoveAction extends Action {
     private final GameBoard board;
 
     public MakeMoveAction(GameBoard board) {

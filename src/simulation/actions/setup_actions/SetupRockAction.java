@@ -1,12 +1,12 @@
 package simulation.actions.setup_actions;
 
 import simulation.Coordinates;
-import simulation.EntityLimitSettings;
 import simulation.GameBoard;
 import simulation.actions.Action;
+import simulation.actions.ActionUtils;
 import simulation.models.Rock;
 
-public class SetupRockAction implements Action {
+public class SetupRockAction extends Action {
     private final GameBoard board;
 
     public SetupRockAction(GameBoard board) {
@@ -15,11 +15,9 @@ public class SetupRockAction implements Action {
 
     @Override
     public void execute() {
-        for (int i = 0; i < EntityLimitSettings.ROCK_LIMIT; i++) {
+        for (int i = 0; i < ActionUtils.ROCK_LIMIT; i++) {
             Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
-            int x = randomFreeCoordinates.x();
-            int y = randomFreeCoordinates.y();
-            board.setEntity(new Coordinates(x, y), new Rock());
+            board.setEntity(randomFreeCoordinates, new Rock());
         }
     }
 }

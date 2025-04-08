@@ -4,7 +4,7 @@ import simulation.GameBoard;
 import simulation.actions.Action;
 import simulation.actions.setup_actions.SetupGrassAction;
 
-public class AddGrassAction implements Action {
+public class AddGrassAction extends Action {
     private final GameBoard board;
 
     public AddGrassAction(GameBoard board) {

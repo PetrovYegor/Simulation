@@ -1,5 +1,6 @@
 package simulation;
 
+import simulation.actions.ActionUtils;
 import simulation.exceptions.InvalidCoordinateException;
 import simulation.models.*;
 
@@ -130,11 +131,11 @@ public class GameBoard {
 
 
     public boolean isGrassEnough() {
-        return getCertainEntities(Grass.class).size() > EntityLimitSettings.HERBIVORE_LIMIT ? true : false;
+        return getCertainEntities(Grass.class).size() > ActionUtils.HERBIVORE_LIMIT ? true : false;
     }
 
     public boolean isHerbivoreEnough() {
-        return getCertainEntities(Herbivore.class).size() > EntityLimitSettings.PREDATOR_LIMIT ? true : false;
+        return getCertainEntities(Herbivore.class).size() > ActionUtils.PREDATOR_LIMIT ? true : false;
     }
 
     public boolean isExists(Creature creature) {
