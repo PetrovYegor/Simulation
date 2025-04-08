@@ -10,40 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private final String iterationCountMessage = "The number of iterations of the game cycle: %d";
+    private final String ITERATION_COUNT_MESSAGE = "The number of iterations of the game cycle: %d";
     private final GameBoard board;
     private int moveCounter = 1;
     private final GameBoardRenderer renderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
+    private boolean isThreadStopped = false;
+    private boolean wasInitializedEarlier = false;
 
-    public Simulation(GameBoard board) {
+    public Simulation(GameBoard board, List<Action> initActions, List<Action> turnActions) {
         this.board = board;
         renderer = new GameBoardRenderer(board);
-        initActions = getInitActions();
-        turnActions = getTurnActions();
-    }
-
-    private List<Action> getInitActions() {
-        List<Action> result = new ArrayList<>();
-        result.add(new SetupPredatorAction(board));
-        result.add(new SetupHerbivoreAction(board));
-        result.add(new SetupGrassAction(board));
-        result.add(new SetupRockAction(board));
-        result.add(new SetupTreeAction(board));
-        return result;
-    }
-
-    public List<Action> getTurnActions() {
-        List<Action> result = new ArrayList<>();
-        result.add(new AddHerbivoreAction(board));
-        result.add(new AddGrassAction(board));
-        result.add(new MakeMoveAction(board));
-        return result;
+        this.initActions = initActions;
+        this.turnActions = turnActions;
     }
 
     private void nextTurn() {
-        System.out.printf(iterationCountMessage, moveCounter);
+        System.out.printf(ITERATION_COUNT_MESSAGE, moveCounter);
         renderer.render();
         for (Action action : turnActions) {
             action.execute();
@@ -52,17 +36,38 @@ public class Simulation {
     }
 
     void startSimulation() throws InterruptedException {
-        for (Action action : initActions) {
-            action.execute();
+        if (!wasInitializedEarlier) {
+            for (Action action : initActions) {
+                action.execute();
+            }
+            wasInitializedEarlier = true;
         }
-
-        while (true) {
-            nextTurn();
-            Thread.sleep(1000);
-        }
+        Thread test = new Thread(new Runnable() {//переименовать переменную
+            @Override
+            public void run() {
+                while (true) {
+                    if (!isThreadStopped) {
+                        nextTurn();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        });
+        test.start();
     }
 
-    private void pauseSimulation() {
+    public void pauseSimulation() {
+        System.out.println("Simulation was stopped");//вынести сообщения в константы
+        isThreadStopped = true;
+    }
 
+    public void resumeSimulation() throws InterruptedException {
+        System.out.println("Simulation was resumed");
+        isThreadStopped = false;
+        startSimulation();
     }
 }
