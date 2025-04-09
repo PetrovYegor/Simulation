@@ -1,12 +1,7 @@
 package simulation;
 
 import simulation.actions.Action;
-import simulation.actions.setup_actions.*;
-import simulation.actions.turn_actions.AddGrassAction;
-import simulation.actions.turn_actions.AddHerbivoreAction;
-import simulation.actions.turn_actions.MakeMoveAction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
@@ -16,8 +11,9 @@ public class Simulation {
     private final GameBoardRenderer renderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
-    private boolean isThreadStopped = false;
-    private boolean wasInitializedEarlier = false;
+    private boolean isRunning = false;
+    private boolean isPaused = false;
+    private Thread simulationThread;
 
     public Simulation(GameBoard board, List<Action> initActions, List<Action> turnActions) {
         this.board = board;
@@ -36,38 +32,76 @@ public class Simulation {
     }
 
     void startSimulation() throws InterruptedException {
-        if (!wasInitializedEarlier) {
-            for (Action action : initActions) {
-                action.execute();
-            }
-            wasInitializedEarlier = true;
+        if (isRunning && !isPaused) {
+            System.out.println("Simulation is already running!");
+            return;
         }
-        Thread test = new Thread(new Runnable() {//переименовать переменную
-            @Override
-            public void run() {
-                while (true) {
-                    if (!isThreadStopped) {
+
+        // Удалить Если симуляция на паузе - возобновляем
+        if (isPaused) {
+            resumeSimulation();
+            return;
+        }
+
+        // Инициализация мира (только при первом запуске)
+        for (Action action : initActions) {
+            action.execute();
+        }
+
+        isRunning = true;
+        isPaused = false;
+
+        simulationThread = new Thread(() -> {
+            try {
+                while (isRunning) {
+                    if (!isPaused) {
                         nextTurn();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
                     }
+                    Thread.sleep(1000);
                 }
+            } catch (InterruptedException e) {
+                System.out.println("Simulation was interrupted");
+                Thread.currentThread().interrupt();
             }
         });
-        test.start();
+
+        simulationThread.start();
     }
 
     public void pauseSimulation() {
-        System.out.println("Simulation was stopped");//вынести сообщения в константы
-        isThreadStopped = true;
+        if (!isRunning || isPaused) {
+            System.out.println("Simulation is not running or already paused!");
+            return;
+        }
+
+        isPaused = true;
+        System.out.println("Simulation paused");
     }
 
     public void resumeSimulation() throws InterruptedException {
-        System.out.println("Simulation was resumed");
-        isThreadStopped = false;
-        startSimulation();
+        if (!isRunning) {
+            System.out.println("Simulation is not running - use 'start' instead");
+            return;
+        }
+
+        if (!isPaused) {
+            System.out.println("Simulation is not paused!");
+            return;
+        }
+
+        isPaused = false;
+        System.out.println("Simulation resumed");
+    }
+
+    public void stopSimulation(){
+        if (!isRunning) {
+            System.out.println("Simulation is not running!");
+            return;
+        }
+
+        isRunning = false;
+        isPaused = false;
+        simulationThread.interrupt();
+        System.out.println("Simulation stopped");
     }
 }

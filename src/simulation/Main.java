@@ -6,7 +6,6 @@ import simulation.actions.turn_actions.AddGrassAction;
 import simulation.actions.turn_actions.AddHerbivoreAction;
 import simulation.actions.turn_actions.MakeMoveAction;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,21 +29,41 @@ public class Main {
 
         Simulation simulation = new Simulation(board, initActions, turnActions);
 
-        printStartMenu();
-        Scanner s = new Scanner(System.in);
-        while (true){
-            String result = s.nextLine();
-            if (result.equalsIgnoreCase("start")){
-                simulation.startSimulation();
-            } else if (result.equalsIgnoreCase("stop")){
-                simulation.pauseSimulation();
-            } else if (result.equalsIgnoreCase("resume")){
-                simulation.resumeSimulation();
+        System.out.println("Simulation commands:");
+        System.out.println("start  - begin simulation");
+        System.out.println("pause  - pause simulation");
+        System.out.println("resume - resume paused simulation");
+        System.out.println("stop   - stop simulation completely");
+        System.out.println("exit   - quit program");
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            switch (input) {
+                case "start":
+                    simulation.startSimulation();
+                    break;
+                case "pause":
+                    simulation.pauseSimulation();
+                    break;
+                case "resume":
+                    simulation.resumeSimulation();
+                    break;
+                case "stop":
+                    simulation.stopSimulation();
+                    break;
+                case "exit":
+                    System.out.println("Exiting program...");
+                    simulation.stopSimulation();
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Unknown command");
             }
         }
     }
 
-    private static void printStartMenu(){
-        System.out.println("Enter start to start simulation");
-    }
 }
