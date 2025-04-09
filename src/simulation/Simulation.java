@@ -118,7 +118,7 @@ public class Simulation {
         moveCounter = 1;
     }
 
-    public void printAndProcessMenu(){
+    public void printAndProcessMenu() {
         System.out.println("Simulation commands:");
         System.out.println("start  - begin simulation");
         System.out.println("pause  - pause simulation");
@@ -153,6 +153,6 @@ public class Simulation {
                 default:
                     System.out.println("Unknown command");
             }
-        }        
+        }
     }
 }

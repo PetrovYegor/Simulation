@@ -70,7 +70,7 @@ public abstract class Creature extends Entity {
         int steps = 0;
         for (Coordinates currentCoordinates : coordinatesForMoving) {
             if (steps < getSpeed()) {
-                if (steps == coordinatesForMoving.size() - 1) {//если creature находится на расстоянии одной клетки от еды
+                if (steps == coordinatesForMoving.size() - 1) {//если creature уже находится на расстоянии одной клетки от еды
                     return;
                 }
                 Coordinates oldCoordinates = getCoordinates();

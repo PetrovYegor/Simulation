@@ -7,7 +7,6 @@ import simulation.actions.turn_actions.AddHerbivoreAction;
 import simulation.actions.turn_actions.MakeMoveAction;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     private static final int GAMEBOARD_HEIGHT = 7;

@@ -24,8 +24,11 @@ public class GameBoard {
         this.width = width;
     }
 
-    public void setEntity(Coordinates coordinates, Entity entity) {//Если передаётся ентити, то его тоже проверять на null
+    public void setEntity(Coordinates coordinates, Entity entity) {
         validateCoordinates(coordinates, "setEntity");
+        if (entity == null) {
+            throw new IllegalArgumentException("The enitity can not be null!");
+        }
         if (entity instanceof Creature) {
             Creature creature = (Creature) entity;
             creature.setCoordinates(coordinates);
@@ -56,6 +59,9 @@ public class GameBoard {
     }
 
     public <T extends Entity> List<T> getCertainEntities(Class<T> entityType) {
+        if (entityType == null) {
+            throw new IllegalArgumentException("The entityType can not be null!");
+        }
         List<T> result = new ArrayList<>();
         for (Entity entity : entities.values()) {
             if (entityType.isInstance(entity)) {
@@ -91,7 +97,7 @@ public class GameBoard {
         return !entities.containsKey(coordinates);
     }
 
-    public boolean isCoordinatesValid(Coordinates coordinates) {//это лучше в класс координат перенести
+    public boolean isCoordinatesValid(Coordinates coordinates) {
         int targetX = coordinates.x();
         int targetY = coordinates.y();
         boolean xValid = targetX >= 0 && targetX < getHeight();
@@ -116,7 +122,7 @@ public class GameBoard {
 
     public boolean isFood(Coordinates targetCoordinates, Creature creature) {
         validateCoordinates(targetCoordinates, "isCoordinatesEmpty");
-        if (!isExists(creature)){
+        if (!isExists(creature)) {
             throw new IllegalArgumentException("The creature is null. Creature can not be null");
         }
         Entity targetEntity = entities.get(targetCoordinates);
@@ -131,11 +137,11 @@ public class GameBoard {
 
 
     public boolean isGrassEnough() {
-        return getCertainEntities(Grass.class).size() > ActionUtils.HERBIVORE_LIMIT ? true : false;
+        return getCertainEntities(Grass.class).size() > ActionUtils.HERBIVORE_LIMIT;
     }
 
     public boolean isHerbivoreEnough() {
-        return getCertainEntities(Herbivore.class).size() > ActionUtils.PREDATOR_LIMIT ? true : false;
+        return getCertainEntities(Herbivore.class).size() > ActionUtils.PREDATOR_LIMIT;
     }
 
     public boolean isExists(Creature creature) {

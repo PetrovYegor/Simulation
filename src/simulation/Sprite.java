@@ -1,7 +1,9 @@
 package simulation;
 
 public final class Sprite {
-    private Sprite(){}
+    private Sprite() {
+    }
+
     public static final String GRASS = "\uD83C\uDF3F";
     public static final String TREE = "\uD83C\uDF33";
     public static final String ROCK = "⛰\uFE0F";

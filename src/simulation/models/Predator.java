@@ -22,7 +22,7 @@ public class Predator extends Creature {
                 Coordinates oldCoordinates = getCoordinates();
                 board.moveEntity(oldCoordinates, currentCoordinates);
                 steps++;
-                if (steps == coordinatesForMoving.size() - 1) {//если creature находится на расстоянии одной клетки от еды
+                if (steps == coordinatesForMoving.size() - 1) {//если creature уже находится на расстоянии одной клетки от еды
                     attack(victimCoordinates, board);
                     return;
                 }
