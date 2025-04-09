@@ -141,4 +141,8 @@ public class GameBoard {
     public boolean isExists(Creature creature) {
         return entities.containsValue(creature);
     }
+
+    public void clearEntities() {
+        entities.clear();
+    }
 }

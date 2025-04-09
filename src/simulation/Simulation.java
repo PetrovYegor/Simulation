@@ -3,9 +3,19 @@ package simulation;
 import simulation.actions.Action;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Simulation {
-    private final String ITERATION_COUNT_MESSAGE = "The number of iterations of the game cycle: %d";
+    private static final String ITERATION_COUNT = "The number of iterations of the game cycle: %d";
+    private static final String SIMULATION_IS_RUNNING = "Simulation is already running! %s";
+    private static final String REENTRY_START = "You can't start it more than once\r\n";
+    private static final String USE_RESUME = "Use 'resume' instead\r\n";
+    public static final String SIMULATION_WAS_INTERRUPTED = "Simulation was interrupted";
+    public static final String STOPPED_RESET_STATE = "Simulation stopped, state have been reset";
+    public static final String SIMULATION_IS_NOT_RUNNING = "Simulation is not running!";
+    public static final String SIMULATION_RESUMED = "Simulation resumed";
+    public static final String SIMULATION_IS_NOT_PAUSED = "Simulation is not paused!";
+    public static final String SIMULATION_IS_NOT_RUNNING_USE_START_INSTEAD = "Simulation is not running - use 'start' instead";
     private final GameBoard board;
     private int moveCounter = 1;
     private final GameBoardRenderer renderer;
@@ -23,7 +33,7 @@ public class Simulation {
     }
 
     private void nextTurn() {
-        System.out.printf(ITERATION_COUNT_MESSAGE, moveCounter);
+        System.out.printf(ITERATION_COUNT, moveCounter);
         renderer.render();
         for (Action action : turnActions) {
             action.execute();
@@ -31,19 +41,17 @@ public class Simulation {
         moveCounter++;
     }
 
-    void startSimulation() throws InterruptedException {
+    void startSimulation() {
         if (isRunning && !isPaused) {
-            System.out.println("Simulation is already running!");
+            System.out.printf(SIMULATION_IS_RUNNING, REENTRY_START);
             return;
         }
 
-        // Удалить Если симуляция на паузе - возобновляем
-        if (isPaused) {
-            resumeSimulation();
+        if (isRunning) {
+            System.out.printf(SIMULATION_IS_RUNNING, USE_RESUME);
             return;
         }
 
-        // Инициализация мира (только при первом запуске)
         for (Action action : initActions) {
             action.execute();
         }
@@ -60,11 +68,10 @@ public class Simulation {
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException e) {
-                System.out.println("Simulation was interrupted");
+                System.out.println(SIMULATION_WAS_INTERRUPTED);
                 Thread.currentThread().interrupt();
             }
         });
-
         simulationThread.start();
     }
 
@@ -78,30 +85,74 @@ public class Simulation {
         System.out.println("Simulation paused");
     }
 
-    public void resumeSimulation() throws InterruptedException {
+    public void resumeSimulation() {
         if (!isRunning) {
-            System.out.println("Simulation is not running - use 'start' instead");
+            System.out.println(SIMULATION_IS_NOT_RUNNING_USE_START_INSTEAD);
             return;
         }
 
         if (!isPaused) {
-            System.out.println("Simulation is not paused!");
+            System.out.println(SIMULATION_IS_NOT_PAUSED);
             return;
         }
 
         isPaused = false;
-        System.out.println("Simulation resumed");
+        System.out.println(SIMULATION_RESUMED);
     }
 
-    public void stopSimulation(){
+    public void stopSimulationAndResetState() {
         if (!isRunning) {
-            System.out.println("Simulation is not running!");
+            System.out.println(SIMULATION_IS_NOT_RUNNING);
             return;
         }
 
         isRunning = false;
         isPaused = false;
         simulationThread.interrupt();
-        System.out.println("Simulation stopped");
+        System.out.println(STOPPED_RESET_STATE);
+        resetSimulationState();
+    }
+
+    private void resetSimulationState() {
+        board.clearEntities();
+        moveCounter = 1;
+    }
+
+    public void printAndProcessMenu(){
+        System.out.println("Simulation commands:");
+        System.out.println("start  - begin simulation");
+        System.out.println("pause  - pause simulation");
+        System.out.println("resume - resume paused simulation");
+        System.out.println("stop   - stop simulation completely");
+        System.out.println("exit   - quit program");
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            switch (input) {
+                case "start":
+                    startSimulation();
+                    break;
+                case "pause":
+                    pauseSimulation();
+                    break;
+                case "resume":
+                    resumeSimulation();
+                    break;
+                case "stop":
+                    stopSimulationAndResetState();
+                    break;
+                case "exit":
+                    stopSimulationAndResetState();
+                    System.out.println("Exiting program...");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Unknown command");
+            }
+        }        
     }
 }
