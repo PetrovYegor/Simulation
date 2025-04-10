@@ -135,7 +135,6 @@ public class GameBoard {
         return false;
     }
 
-
     public boolean isGrassEnough() {
         return getCertainEntities(Grass.class).size() > ActionUtils.HERBIVORE_LIMIT;
     }

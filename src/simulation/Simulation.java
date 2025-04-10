@@ -119,7 +119,7 @@ public class Simulation {
     }
 
     public void printAndProcessMenu() {
-        System.out.println("Simulation commands:");
+        System.out.println("Select one of the simulation commands:");
         System.out.println("start  - begin simulation");
         System.out.println("pause  - pause simulation");
         System.out.println("resume - resume paused simulation");
