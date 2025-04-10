@@ -2,7 +2,9 @@ package simulation.actions;
 
 import java.util.Random;
 
-public class ActionUtils {
+public final class ActionUtils {
+    private ActionUtils(){}
+
     private static final int MIN_HEALTH_VALUE_EXCLUSIVE = 1;
     private static final int MAX_HEALTH_VALUE_EXCLUSIVE = 7;
     private static final int MIN_SPEED_VALUE_EXCLUSIVE = 1;
