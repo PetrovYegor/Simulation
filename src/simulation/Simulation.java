@@ -121,9 +121,9 @@ public class Simulation {
     public void printAndProcessMenu() {
         System.out.println("Select one of the simulation commands:");
         System.out.println("start  - begin simulation");
-        System.out.println("pause  - pause simulation");
-        System.out.println("resume - resume paused simulation");
-        System.out.println("stop   - stop simulation completely");
+        System.out.println("p      - pause simulation");
+        System.out.println("r      - resume paused simulation");
+        System.out.println("s      - stop simulation completely");
         System.out.println("exit   - quit program");
 
         Scanner scanner = new Scanner(System.in);
@@ -135,13 +135,13 @@ public class Simulation {
                 case "start":
                     startSimulation();
                     break;
-                case "pause":
+                case "p":
                     pauseSimulation();
                     break;
-                case "resume":
+                case "r":
                     resumeSimulation();
                     break;
-                case "stop":
+                case "s":
                     stopSimulationAndResetState();
                     break;
                 case "exit":
