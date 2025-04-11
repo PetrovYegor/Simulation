@@ -29,6 +29,7 @@ public class GameBoard {
         if (entity == null) {
             throw new IllegalArgumentException("The enitity can not be null!");
         }
+        //if (entity))
         if (entity instanceof Creature) {
             Creature creature = (Creature) entity;
             creature.setCoordinates(coordinates);
@@ -143,8 +144,8 @@ public class GameBoard {
         return getCertainEntities(Herbivore.class).size() > ActionUtils.PREDATOR_LIMIT;
     }
 
-    public boolean isExists(Creature creature) {
-        return entities.containsValue(creature);
+    public boolean isExists(Entity entity) {
+        return entities.containsValue(entity);
     }
 
     public void clearEntities() {
