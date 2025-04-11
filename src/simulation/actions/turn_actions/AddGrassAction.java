@@ -2,7 +2,9 @@ package simulation.actions.turn_actions;
 
 import simulation.GameBoard;
 import simulation.actions.Action;
-import simulation.actions.setup_actions.SetupGrassAction;
+import simulation.actions.ActionUtils;
+import simulation.actions.setup_actions.SpawnAction;
+import simulation.models.Grass;
 
 public class AddGrassAction extends Action {
     private final GameBoard board;
@@ -14,7 +16,8 @@ public class AddGrassAction extends Action {
     @Override
     public void execute() {
         if (!board.isGrassEnough()) {
-            new SetupGrassAction(board).execute();
+            SpawnAction<Grass> grassSpawnAction = new SpawnAction<>(board, ActionUtils.GRASS_LIMIT, Grass::new);
+            grassSpawnAction.execute();
         }
     }
 }
