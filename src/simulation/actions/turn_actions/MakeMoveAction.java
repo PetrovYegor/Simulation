@@ -1,6 +1,6 @@
 package simulation.actions.turn_actions;
 
-import simulation.GameBoard;
+import simulation.models.GameBoard;
 import simulation.actions.Action;
 import simulation.models.Creature;
 

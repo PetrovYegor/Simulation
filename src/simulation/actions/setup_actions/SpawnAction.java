@@ -1,7 +1,7 @@
 package simulation.actions.setup_actions;
 
-import simulation.Coordinates;
-import simulation.GameBoard;
+import simulation.models.Coordinates;
+import simulation.models.GameBoard;
 import simulation.actions.Action;
 import simulation.models.Entity;
 

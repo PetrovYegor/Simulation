@@ -1,6 +1,7 @@
 package simulation;
 
 import simulation.actions.Action;
+import simulation.models.GameBoard;
 
 import java.util.List;
 import java.util.Scanner;
@@ -8,17 +9,22 @@ import java.util.Scanner;
 public class Simulation {
     private static final String ITERATION_COUNT = "The number of iterations of the game cycle: %d";
     private static final String SIMULATION_IS_RUNNING = "Simulation is already running! %s";
-    private static final String REENTRY_START = "You can't start it more than once\r\n";
+    public static final String START = "start";
+    public static final String PAUSE = "p";
+    public static final String RESUME = "r";
+    public static final String STOP = "s";
+    private static final String REENTRY_START = "You can't " + START + " it more than once\r\n";
     private static final String USE_RESUME = "Use 'resume' instead\r\n";
     public static final String SIMULATION_WAS_INTERRUPTED = "Simulation was interrupted";
     public static final String STOPPED_RESET_STATE = "Simulation stopped, state have been reset";
     public static final String SIMULATION_IS_NOT_RUNNING = "Simulation is not running!";
     public static final String SIMULATION_RESUMED = "Simulation resumed";
     public static final String SIMULATION_IS_NOT_PAUSED = "Simulation is not paused!";
-    public static final String SIMULATION_IS_NOT_RUNNING_USE_START_INSTEAD = "Simulation is not running - use 'start' instead";
+    public static final String SIMULATION_IS_NOT_RUNNING_USE_START_INSTEAD = "Simulation is not running - use '" + START + "' instead";
+    public static final String EXIT = "exit";
     private final GameBoard board;
     private int moveCounter = 1;
-    private final GameBoardRenderer renderer;
+    private final PathFinder.GameBoardRenderer renderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
     private boolean isRunning = false;
@@ -27,7 +33,7 @@ public class Simulation {
 
     public Simulation(GameBoard board, List<Action> initActions, List<Action> turnActions) {
         this.board = board;
-        renderer = new GameBoardRenderer(board);
+        renderer = new PathFinder.GameBoardRenderer(board);
         this.initActions = initActions;
         this.turnActions = turnActions;
     }
@@ -120,11 +126,11 @@ public class Simulation {
 
     public void printAndProcessMenu() {
         System.out.println("Select one of the simulation commands:");
-        System.out.println("start  - begin simulation");
-        System.out.println("p      - pause simulation");
-        System.out.println("r      - resume paused simulation");
-        System.out.println("s      - stop simulation completely");
-        System.out.println("exit   - quit program");
+        System.out.println(START + "  - begin simulation");
+        System.out.println(PAUSE + "      - pause simulation");
+        System.out.println(RESUME + "      - resume paused simulation");
+        System.out.println(STOP + "      - stop simulation completely");
+        System.out.println(EXIT + "   - quit program");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -132,19 +138,19 @@ public class Simulation {
             String input = scanner.nextLine().trim().toLowerCase();
 
             switch (input) {
-                case "start":
+                case START:
                     startSimulation();
                     break;
-                case "p":
+                case PAUSE:
                     pauseSimulation();
                     break;
-                case "r":
+                case RESUME:
                     resumeSimulation();
                     break;
-                case "s":
+                case STOP:
                     stopSimulationAndResetState();
                     break;
-                case "exit":
+                case EXIT:
                     stopSimulationAndResetState();
                     System.out.println("Exiting program...");
                     scanner.close();

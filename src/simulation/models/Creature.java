@@ -1,7 +1,5 @@
 package simulation.models;
 
-import simulation.Coordinates;
-import simulation.GameBoard;
 import simulation.PathFinder;
 
 import java.util.List;
@@ -70,7 +68,7 @@ public abstract class Creature extends Entity {
         int steps = 0;
         for (Coordinates currentCoordinates : coordinatesForMoving) {
             if (steps < getSpeed()) {
-                if (steps == coordinatesForMoving.size() - 1) {//если creature уже находится на расстоянии одной клетки от еды
+                if (isNear(coordinatesForMoving, steps)) {//если creature уже находится на расстоянии одной клетки от еды
                     return;
                 }
                 Coordinates oldCoordinates = getCoordinates();
@@ -78,6 +76,10 @@ public abstract class Creature extends Entity {
                 steps++;
             }
         }
+    }
+
+    public boolean isNear(List<Coordinates> coordinatesForMoving, int steps){
+        return steps == coordinatesForMoving.size() - 1;
     }
 
     private boolean isFoodFound(List<Coordinates> wayToFood) {

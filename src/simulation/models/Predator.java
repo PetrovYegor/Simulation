@@ -1,8 +1,5 @@
 package simulation.models;
 
-import simulation.Coordinates;
-import simulation.GameBoard;
-
 import java.util.List;
 
 public class Predator extends Creature {
@@ -22,7 +19,7 @@ public class Predator extends Creature {
                 Coordinates oldCoordinates = getCoordinates();
                 board.moveEntity(oldCoordinates, currentCoordinates);
                 steps++;
-                if (steps == coordinatesForMoving.size() - 1) {//если creature уже находится на расстоянии одной клетки от еды
+                if (isNear(coordinatesForMoving, steps)) {
                     attack(victimCoordinates, board);
                     return;
                 }

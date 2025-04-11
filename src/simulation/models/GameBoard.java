@@ -1,4 +1,4 @@
-package simulation;
+package simulation.models;
 
 import simulation.actions.ActionUtils;
 import simulation.exceptions.InvalidCoordinateException;
@@ -30,8 +30,7 @@ public class GameBoard {
             throw new IllegalArgumentException("The enitity can not be null!");
         }
         //if (entity))
-        if (entity instanceof Creature) {
-            Creature creature = (Creature) entity;
+        if (entity instanceof Creature creature) {
             creature.setCoordinates(coordinates);
         }
         entities.put(coordinates, entity);
