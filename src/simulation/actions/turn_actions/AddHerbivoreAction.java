@@ -1,9 +1,10 @@
 package simulation.actions.turn_actions;
 
-import simulation.models.GameBoard;
+import simulation.BoardUtils;
 import simulation.actions.Action;
 import simulation.actions.ActionUtils;
 import simulation.actions.setup_actions.SpawnAction;
+import simulation.models.GameBoard;
 import simulation.models.Herbivore;
 
 public class AddHerbivoreAction extends Action {
@@ -15,9 +16,9 @@ public class AddHerbivoreAction extends Action {
 
     @Override
     public void execute() {
-        if (!board.isHerbivoreEnough()) {
+        if (!BoardUtils.isHerbivoreEnough(board)) {
             SpawnAction<Herbivore> herbivoreSpawnAction = new SpawnAction<>(board, ActionUtils.HERBIVORE_LIMIT
-                    , () -> new Herbivore(board.getRandomFreeCoordinates()
+                    , () -> new Herbivore(BoardUtils.getRandomFreeCoordinates(board, board.getHeight(), board.getWidth())
                     , ActionUtils.getRandomSpeed()
                     , ActionUtils.getRandomHealth()));
 

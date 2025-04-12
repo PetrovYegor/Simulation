@@ -1,5 +1,6 @@
 package simulation.models;
 
+import simulation.BoardUtils;
 import simulation.PathFinder;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public abstract class Creature extends Entity {
     public abstract void attack(Coordinates target, GameBoard board);
 
     public void eat(Coordinates coordinates, GameBoard board) {
-        board.validateCoordinates(coordinates, "eat");
+        BoardUtils.validateCoordinates(board, coordinates);
         board.removeEntity(coordinates);
     }
 

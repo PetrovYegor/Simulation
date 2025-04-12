@@ -1,9 +1,10 @@
 package simulation.actions.setup_actions;
 
-import simulation.models.Coordinates;
-import simulation.models.GameBoard;
+import simulation.BoardUtils;
 import simulation.actions.Action;
+import simulation.models.Coordinates;
 import simulation.models.Entity;
+import simulation.models.GameBoard;
 
 import java.util.function.Supplier;
 
@@ -21,7 +22,7 @@ public class SpawnAction<T extends Entity> extends Action {
     @Override
     public void execute() {
         for (int i = 0; i < amount; i++) {
-            Coordinates randomFreeCoordinates = board.getRandomFreeCoordinates();
+            Coordinates randomFreeCoordinates = BoardUtils.getRandomFreeCoordinates(board, board.getHeight(), board.getWidth());
             Entity entity = entitySupplier.get();
             board.setEntity(randomFreeCoordinates, entity);
         }

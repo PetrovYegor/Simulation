@@ -1,5 +1,7 @@
 package simulation.models;
 
+import simulation.BoardUtils;
+
 import java.util.List;
 
 public class Predator extends Creature {
@@ -28,7 +30,7 @@ public class Predator extends Creature {
     }
 
     public void attack(Coordinates target, GameBoard board) {
-        board.validateCoordinates(target, "attack");
+        BoardUtils.validateCoordinates(board, target);
         Creature victim = (Creature) board.getEntity(target);
         int currentVictimHealth = victim.getHealth();
         victim.setHealth(currentVictimHealth - attackPower);

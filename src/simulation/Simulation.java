@@ -24,7 +24,7 @@ public class Simulation {
     public static final String EXIT = "exit";
     private final GameBoard board;
     private int moveCounter = 1;
-    private final PathFinder.GameBoardRenderer renderer;
+    private final GameBoardRenderer renderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
     private boolean isRunning = false;
@@ -33,7 +33,7 @@ public class Simulation {
 
     public Simulation(GameBoard board, List<Action> initActions, List<Action> turnActions) {
         this.board = board;
-        renderer = new PathFinder.GameBoardRenderer(board);
+        renderer = new GameBoardRenderer(board);
         this.initActions = initActions;
         this.turnActions = turnActions;
     }

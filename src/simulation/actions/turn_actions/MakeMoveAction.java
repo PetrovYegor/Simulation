@@ -16,7 +16,7 @@ public class MakeMoveAction extends Action {
 
     @Override
     public void execute() {
-        Set<Creature> livingCreatures = new HashSet<>(board.getCertainEntities(Creature.class));
+        Set<Creature> livingCreatures = new HashSet<>(board.getEntitiesBy(Creature.class));
         for (Creature creature : livingCreatures) {
             if (board.isExists(creature)) {
                 creature.makeMove(board);

@@ -1,5 +1,6 @@
 package simulation.actions.turn_actions;
 
+import simulation.BoardUtils;
 import simulation.models.GameBoard;
 import simulation.actions.Action;
 import simulation.actions.ActionUtils;
@@ -15,7 +16,7 @@ public class AddGrassAction extends Action {
 
     @Override
     public void execute() {
-        if (!board.isGrassEnough()) {
+        if (!BoardUtils.isGrassEnough(board)) {
             SpawnAction<Grass> grassSpawnAction = new SpawnAction<>(board, ActionUtils.GRASS_LIMIT, Grass::new);
             grassSpawnAction.execute();
         }

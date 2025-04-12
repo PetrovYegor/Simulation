@@ -1,6 +1,8 @@
 package simulation;
 
-import simulation.models.*;
+import simulation.models.Coordinates;
+import simulation.models.Creature;
+import simulation.models.GameBoard;
 
 import java.util.*;
 
@@ -18,7 +20,7 @@ public class PathFinder {
     }
 
     public List<Coordinates> searchFood(Coordinates start) {
-        board.validateCoordinates(start, "searchFood");
+        BoardUtils.validateCoordinates(board, start);
         List<Coordinates> result = Collections.emptyList();
         Creature currentCreature = (Creature) board.getEntity(start);
         bfsQueue.add(start);
@@ -34,7 +36,7 @@ public class PathFinder {
                 continue;
             }
             if (!board.isCoordinatesEmpty(current)) {
-                if (board.isFood(current, currentCreature)) {
+                if (BoardUtils.isFood(board, current, currentCreature)) {
                     result = reconstructPath(current);
                     break;
                 }
@@ -46,13 +48,13 @@ public class PathFinder {
     }
 
     private void addPredecessors(Coordinates current) {
-        board.validateCoordinates(current, "addPredecessors");
+        BoardUtils.validateCoordinates(board, current);
         Coordinates[] directions = getShiftDirections();
         for (Coordinates coordinates : directions) {
             int newX = current.x() + coordinates.x();
             int newY = current.y() + coordinates.y();
             Coordinates newCoordinates = new Coordinates(newX, newY);
-            if (board.isCoordinatesValid(newCoordinates)) {
+            if (BoardUtils.isCoordinatesValid(newCoordinates, board.getHeight(), board.getWidth())) {
                 if (!isVisited(newCoordinates) && !bfsQueue.contains(newCoordinates)) {
                     bfsQueue.add(newCoordinates);
                     cameFrom.put(newCoordinates, current);
@@ -71,7 +73,7 @@ public class PathFinder {
     }
 
     private LinkedList<Coordinates> reconstructPath(Coordinates target) {
-        board.validateCoordinates(target, "reconstructPath");
+        BoardUtils.validateCoordinates(board, target);
         LinkedList<Coordinates> wayToTarget = new LinkedList<>();
         Coordinates current = target;
         do {
@@ -83,75 +85,22 @@ public class PathFinder {
     }
 
     private boolean isVisited(Coordinates target) {
-        board.validateCoordinates(target, "isVisited");
+        BoardUtils.validateCoordinates(board, target);
         return visited.contains(target);
     }
 
     private void markAsVisited(Coordinates c) {
-        board.validateCoordinates(c, "markAsVisited");
+        BoardUtils.validateCoordinates(board, c);
         visited.add(c);
     }
 
     private boolean isBeginningOfSearch(Coordinates current, Coordinates start) {
-        board.validateCoordinates(current, "isBeginningOfSearch (current)");
-        board.validateCoordinates(start, "isBeginningOfSearch (start)");
+        BoardUtils.validateCoordinates(board, current);
+        BoardUtils.validateCoordinates(board, start);
         return current.equals(start);
     }
 
     private boolean isBfsQueueEmpty() {
         return bfsQueue.isEmpty();
-    }
-
-    public static class GameBoardRenderer {
-        private final GameBoard board;
-
-        GameBoardRenderer(GameBoard board) {
-            this.board = board;
-        }
-
-        public void render() {
-            System.out.println();
-
-            for (int i = 0; i < board.getHeight(); i++) {
-                String line = "";
-                for (int j = 0; j < board.getWidth(); j++) {
-                    Coordinates coordinates = new Coordinates(i, j);
-                    if (board.isCoordinatesEmpty(coordinates)) {
-                        line += getSpriteForEmptyCell();
-                    } else {
-                        Entity entity = board.getEntity(coordinates);
-                        line += getEntitySprite(entity);
-                    }
-                }
-                System.out.println(line);
-            }
-        }
-
-        private String getSpriteForEmptyCell() {
-            String resultSprite = Sprite.GROUND;
-            if (resultSprite == null) {
-                throw new NoSuchElementException("Sprite for empty cell is null");
-            }
-            return resultSprite;
-        }
-
-        private String getEntitySprite(Entity entity) {
-            String resultSptite = null;
-            if (entity instanceof Herbivore) {
-                resultSptite = Sprite.HERBIVORE;
-            } else if (entity instanceof Grass) {
-                resultSptite = Sprite.GRASS;
-            } else if (entity instanceof Rock) {
-                resultSptite = Sprite.ROCK;
-            } else if (entity instanceof Predator) {
-                resultSptite = Sprite.PREDATOR;
-            } else if (entity instanceof Tree) {
-                resultSptite = Sprite.TREE;
-            }
-            if (resultSptite == null) {
-                throw new IllegalArgumentException("The entity is null or there is no sprite for current entity");
-            }
-            return resultSptite;
-        }
     }
 }
