@@ -69,12 +69,4 @@ public final class BoardUtils {
         }
         return false;
     }
-
-    public static boolean isGrassEnough(GameBoard board) {
-        return board.getEntitiesBy(Grass.class).size() > ActionUtils.HERBIVORE_LIMIT;
-    }
-
-    public static boolean isHerbivoreEnough(GameBoard board) {
-        return board.getEntitiesBy(Herbivore.class).size() > ActionUtils.PREDATOR_LIMIT;
-    }
 }
