@@ -5,6 +5,12 @@ import simulation.models.*;
 import java.util.NoSuchElementException;
 
 public class GameBoardRenderer {
+    private static final String GRASS = "\uD83C\uDF3F";
+    private static final String TREE = "\uD83C\uDF33";
+    private static final String ROCK = "⛰\uFE0F";
+    private static final String HERBIVORE = "\uD83E\uDD8C";
+    private static final String PREDATOR = "\uD83D\uDC3A";
+    private static final String GROUND = "\uD83D\uDFEB";
     private final GameBoard board;
 
     GameBoardRenderer(GameBoard board) {
@@ -15,14 +21,14 @@ public class GameBoardRenderer {
         System.out.println();
 
         for (int i = 0; i < board.getHeight(); i++) {
-            String line = "";
+            StringBuilder line = new StringBuilder();
             for (int j = 0; j < board.getWidth(); j++) {
                 Coordinates coordinates = new Coordinates(i, j);
                 if (board.isCoordinatesEmpty(coordinates)) {
-                    line += getSpriteForEmptyCell();
+                    line.append(getSpriteForEmptyCell());
                 } else {
                     Entity entity = board.getEntity(coordinates);
-                    line += getEntitySprite(entity);
+                    line.append(getEntitySprite(entity));
                 }
             }
             System.out.println(line);
@@ -30,7 +36,7 @@ public class GameBoardRenderer {
     }
 
     private String getSpriteForEmptyCell() {
-        String resultSprite = Sprite.GROUND;
+        String resultSprite = GROUND;
         if (resultSprite == null) {
             throw new NoSuchElementException("Sprite for empty cell is null");
         }
@@ -38,26 +44,21 @@ public class GameBoardRenderer {
     }
 
     private String getEntitySprite(Entity entity) {
-        String resultSptite = null;
         if (entity instanceof Herbivore) {
-            resultSptite = Sprite.HERBIVORE;
+            return HERBIVORE;
         }
         if (entity instanceof Grass) {
-            resultSptite = Sprite.GRASS;
+            return GRASS;
         }
         if (entity instanceof Rock) {
-            resultSptite = Sprite.ROCK;
+            return ROCK;
         }
         if (entity instanceof Predator) {
-            resultSptite = Sprite.PREDATOR;
+            return PREDATOR;
         }
         if (entity instanceof Tree) {
-            resultSptite = Sprite.TREE;
+            return TREE;
         }
-        if (resultSptite == null) {
-            throw new IllegalArgumentException("The entity is null or there is no sprite for current entity");
-        }
-        return resultSptite;
+        throw new IllegalArgumentException("The entity is null or there is no sprite for current entity");
     }
-
 }
