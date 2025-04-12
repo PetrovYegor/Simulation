@@ -27,7 +27,9 @@ public class GameBoard {
         if (entity == null) {
             throw new IllegalArgumentException("The enitity can not be null!");
         }
-        //if (entity))
+        if (entities.containsValue(entity)){
+            throw new IllegalArgumentException("An entity can only be located at one point on the map");
+        }
         if (entity instanceof Creature creature) {
             creature.setCoordinates(coordinates);
         }
