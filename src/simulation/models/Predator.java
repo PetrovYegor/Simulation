@@ -29,6 +29,11 @@ public class Predator extends Creature {
         }
     }
 
+    @Override
+    public Class<? extends Entity> getTypeOfFood() {
+        return Herbivore.class;
+    }
+
     public void attack(Coordinates target, GameBoard board) {
         BoardUtils.validateCoordinates(board, target);
         Creature victim = (Creature) board.getEntity(target);

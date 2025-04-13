@@ -12,4 +12,9 @@ public class Herbivore extends Creature {
         BoardUtils.validateCoordinates(board, target);
         eat(target, board);
     }
+
+    @Override
+    public Class<? extends Entity> getTypeOfFood() {
+        return Grass.class;
+    }
 }

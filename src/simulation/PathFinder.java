@@ -1,7 +1,7 @@
 package simulation;
 
 import simulation.models.Coordinates;
-import simulation.models.Creature;
+import simulation.models.Entity;
 import simulation.models.GameBoard;
 
 import java.util.*;
@@ -19,10 +19,9 @@ public class PathFinder {
         bfsQueue = new LinkedList<>();
     }
 
-    public List<Coordinates> searchFood(Coordinates start) {
+    public List<Coordinates> searchFood(Coordinates start, Class<? extends Entity> target) {
         BoardUtils.validateCoordinates(board, start);
         List<Coordinates> result = Collections.emptyList();
-        Creature currentCreature = (Creature) board.getEntity(start);
         bfsQueue.add(start);
 
         while (!isBfsQueueEmpty()) {
@@ -36,7 +35,7 @@ public class PathFinder {
                 continue;
             }
             if (!board.isCoordinatesEmpty(current)) {
-                if (BoardUtils.isFood(board, current, currentCreature)) {
+                if (target.isInstance(board.getEntity(current))) {
                     result = reconstructPath(current);
                     break;
                 }

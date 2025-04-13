@@ -4,6 +4,7 @@ import simulation.BoardUtils;
 import simulation.PathFinder;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public abstract class Creature extends Entity {
     private Coordinates coordinates;
@@ -27,7 +28,7 @@ public abstract class Creature extends Entity {
 
     public void makeMove(GameBoard board) {
         PathFinder pathFinder = new PathFinder(board);
-        List<Coordinates> coordinatesForMoving = pathFinder.searchFood(getCoordinates());
+        List<Coordinates> coordinatesForMoving = pathFinder.searchFood(getCoordinates(), getTypeOfFood());
         if (isFoodFound(coordinatesForMoving)) {
             if (canAttack(coordinatesForMoving)) {
                 Coordinates target = coordinatesForMoving.get(0);
@@ -37,6 +38,7 @@ public abstract class Creature extends Entity {
             }
         }
     }
+    public abstract Class<? extends Entity> getTypeOfFood();
 
     public boolean canAttack(List<Coordinates> c) {
         return c.size() == ATTACK_DISTANCE;
