@@ -1,8 +1,8 @@
 package simulation.actions.turn_actions;
 
-import simulation.models.GameBoard;
 import simulation.actions.Action;
 import simulation.models.Creature;
+import simulation.models.GameBoard;
 
 import java.util.HashSet;
 import java.util.Set;

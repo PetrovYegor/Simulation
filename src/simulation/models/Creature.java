@@ -4,7 +4,6 @@ import simulation.BoardUtils;
 import simulation.PathFinder;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public abstract class Creature extends Entity {
     private Coordinates coordinates;
@@ -38,6 +37,7 @@ public abstract class Creature extends Entity {
             }
         }
     }
+
     public abstract Class<? extends Entity> getTypeOfFood();
 
     public boolean canAttack(List<Coordinates> c) {
@@ -81,7 +81,7 @@ public abstract class Creature extends Entity {
         }
     }
 
-    public boolean isNear(List<Coordinates> coordinatesForMoving, int steps){
+    public boolean isNear(List<Coordinates> coordinatesForMoving, int steps) {
         return steps == coordinatesForMoving.size() - 1;
     }
 

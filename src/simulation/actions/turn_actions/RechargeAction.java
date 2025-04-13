@@ -13,22 +13,24 @@ public class RechargeAction<T extends Entity> extends Action {
     private Class<T> entityClazz;
     private Supplier<T> entitySupplier;
     private int upperLimit;
-    public RechargeAction(GameBoard board, Class<T> entityClazz, Supplier<T> entitySupplier, int upperLimit){
+
+    public RechargeAction(GameBoard board, Class<T> entityClazz, Supplier<T> entitySupplier, int upperLimit) {
         this.board = board;
         this.entityClazz = entityClazz;
         this.entitySupplier = entitySupplier;
         this.upperLimit = upperLimit;
     }
+
     @Override
     public void execute() {
         List<T> entities = board.getEntitiesBy(entityClazz);
-        if (!isEnough(entities.size())){
+        if (!isEnough(entities.size())) {
             SpawnAction spawnAction = new SpawnAction(board, upperLimit, entitySupplier);
             spawnAction.execute();
         }
     }
 
-    private boolean isEnough(int amount){
+    private boolean isEnough(int amount) {
         return amount > upperLimit;
     }
 }
